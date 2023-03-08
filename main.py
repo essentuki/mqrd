@@ -13,7 +13,19 @@ import time
 import os
 import pathlib
 
-#+++++++++++++++++++++++++++++++++++++++
+# ++++++++++++++++++++++++++++++++++++++
+def formatting(s,m,l):
+    if l > len(s):
+        spaces = l-len(s)
+    else:
+        spaces = len(s)-l
+    
+    spaced_text = ''
+    for i in range(spaces):
+        spaced_text += ' '
+    return s + spaced_text + m
+
+# ++++++++++++++++++++++++++++++++++++++
 #          PALETTE OF COLORS
 
 class bcolors:
@@ -38,11 +50,10 @@ except:
     pass
 os.chdir(folder_name)
 
+# the file will be name by the number of the day within the month
 file_name = date.today().strftime("%d")
-#here = os.path.dirname(os.path.realpath(__file__))
-#file_path = os.path.join(here,folder_name,file_name)
 try:
-    f = open(file_name,"a")
+    f = open(file_name,'a+')
 except:
     pass
 
@@ -50,22 +61,19 @@ except:
 t.title()
 time.sleep(1.5)
 
+length = 0
 user = ''
 activities = []
-"""for line in f:
-    #activities.append(line)
-    print(line)
-f.close()
-try:
-    f = open(file_name,"a")
-except:
-    pass"""
+
+f.seek(0)
+for line in f:
+    activities.append(line.split('\n')[0][3:])
 
 while user != 'off':
     
     os.system('clear')
     print(bcolors.OKBLUE + "          |   Make Your Day a Good Day!   |")
-    print("          |          MQRD v0.3            |")
+    print("          |          MQRD v0.4            |")
     today_date = date.today().strftime("%b %d, %Y")
     print(f"          |        {today_date}           |")
     print(f"          |||||||||||||||||||||||||||||||||")
@@ -81,20 +89,29 @@ while user != 'off':
         print(bcolors.WARNING + "               [No pending activities]" + bcolors.ENDC )
             
     print(bcolors.OKBLUE + "|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-    print("Check (c)  |  Postpone (p)  |  Yesterday (-)  |  Settings (-) " + bcolors.ENDC)
+    print("Check (c)  |  Postpone (p)  |  Pomodoro (+)  |  Settings (-) " + bcolors.ENDC)
     
     user = input(bcolors.ENDC + "\nUser Input: " + bcolors.ENDC)
     
     if user.lower() == 'a'  :
-        activities.append(input("Add your task: ") + bcolors.OKCYAN + '    [in progress]' + bcolors.ENDC)
+        user_a = input("Add your task: ")
+        if length < len(user_a):
+            length = len(user_a)
+        user_a = formatting(user_a, bcolors.OKCYAN + '     [in progress]' + bcolors.ENDC, length)
+        
+        activities.append(user_a) 
         
     elif user.lower() == 'e':
         selected_task = int(input("Which task? "))
         if activities and selected_task < len(activities):
-            activities[selected_task] = input("Rewrite here: ") + bcolors.OKCYAN + '    [in progress]' + bcolors.ENDC
-        
+            user_e = input("Rewrite here: ")
+            if length < len(user_e):
+                length = len(user_e)
+            user_e = formatting(user_e, bcolors.OKCYAN + '     [in progress]' + bcolors.ENDC, length)
+            activities[selected_task] = user_e
+            
     elif user.lower() == 'd':
-        selected_task = int(input("Which task? "))
+        selected_task = int(input("Which task do you want to delete? "))
         corroborate = input("Sure? Yes (y) ")
         if corroborate.lower() == 'y' and (activities and selected_task < len(activities)):
             del activities[selected_task]
@@ -117,12 +134,13 @@ while user != 'off':
         
     else:
         user = 'off'
-        print("\nHave a good one!")
-        print("The program will exit now.\n")
+        print(bcolors.OKGREEN + "\nHave a good one!")
+        print(bcolors.WARNING + "The program will exit now.\n")
         time.sleep(1.5)
 
 for i,val in enumerate(activities):
-    f.write(f"[{i}] " + val.split("\33")[0] + " " + val.split("\33")[1][4:] + "\n")
+    #f.write(f"[{i}] " + val.split("\33")[0] + " " + val.split("\33")[1][4:] + "\n")
+    f.write(f"[{i}] " + val + "\n")
         
 f.close()
 os.system('clear')
