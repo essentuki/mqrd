@@ -1,4 +1,4 @@
-# mqrd
+# MQRD
 Make Your Day a Good Day! - Agenda (To-Dos) for a terminal
 
 A project for those who love the terminal and the simplicity of doing everything from their keyboard.
@@ -6,14 +6,15 @@ A project for those who love the terminal and the simplicity of doing everything
 The first attempt is using Python and Procedural Oriented Programming. 
 
 Created Features:
-- Add an element
+- Add an element in automatic mode
 - Edit an element
 - Delete an element
 - Check an element as done
 - Postpone an element for next day
 - Exit the program
+- After exiting, if open again, it recovers the day's task
+- It creates a log file, with all changes occurring during a day
 
-Currently the program is able to save the written activities for each day.
 
 The plan is to keep updating it as much as needed.
 
