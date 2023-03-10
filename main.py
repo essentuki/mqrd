@@ -6,8 +6,10 @@
 
 #!/usr/bin/env python
 
+# internal libraries
 import title as t
 
+# external libraries
 from datetime import date
 import time
 import os
@@ -64,7 +66,8 @@ def main():
 
     t.title()
     time.sleep(1.5)
-
+    
+    WIDTH = 80 #standard width of a terminal window
     length = 0
     user = ''
     activities = []
@@ -83,36 +86,50 @@ def main():
     f.write('\n \n')
     f.seek(0)
 
+# ++++++++++++++++++++++++++++++++++++++++++++++++
+    s5 = '     '
+    s10 = s5*2
+    
     while user != 'off':
 
         os.system('clear')
         today_date = date.today().strftime("%b %d, %Y")
         print(col.OKBLUE)
-        print( "                                                           ")
-        print( "          |||||||||||||||||||||||||||||||||||||            ")
-        print( "          |||   Make Your Day a Good Day!   |||            ")
-        print( "          |||          MQRD v0.5            |||            ")
-        print(f"          |||         {today_date}          |||            ")
-        print( "          |||||||||||||||||||||||||||||||||||||            ")
-        print( "                                                           ")
-        print( "                                                           ")
-        print( "        Add  |  Edit (e)  |  Del (d)  |  Exit (x)          ")
-        print( "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-        print(col.ENDC)
+        print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
+        print( s10+s10+ "|||   Make Your Day a Good Day!   |||")
+        print( s10+s10+ "|||          MQRD v0.6            |||")
+        print( s10+s10+f"|||         {today_date}          |||")
+        print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
+        print( "\n")
+        print( s10+s5 + "   Add  |  Edit (e)  |  Del (d)  |  Exit (x)")
+        print( "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
         if activities:
+            print("||" + " "*(WIDTH-4) + "||")
             for i,val in enumerate(activities):
-                print(col.WARNING + f"   [{i}]. {val}" + col.ENDC)
+                complement_space = WIDTH - 5 - 5 - len(f"[{i}]. {val}") + 9
+                print(col.OKBLUE + "||   "
+                 + col.WARNING + f"[{i}]. {val}"
+                 + ' '*complement_space  
+                 + col.OKBLUE + "   ||"
+                 )
+            print("||" + " "*(WIDTH-4) + "||")
+            
         else:
-            print(col.WARNING + "               [No pending activities]" + col.ENDC )
+            print("||" + " "*(WIDTH-4) + "||")
+            complement_space = WIDTH - 5 - 5 - len(s10+s10+"  [No pending activities]")
+            print(col.OKBLUE + "||   "
+                 + col.WARNING + s10+s10+"  [No pending activities]"
+                 + ' '*complement_space  
+                 + col.OKBLUE + "   ||"
+                 )
+            print("||" + " "*(WIDTH-4) + "||")
         
-        print(col.OKBLUE)
-        print( "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-        print( " Ready (r)  |  Tomorrow (t)  |  Pomodoro (+)  |  Config (-)")
-        print( "                                                           ")
+        print( "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+        print( s10+" Ready (r)  |  Tomorrow (t)  |  Pomodoro (+)  |  Config (-)")
         print(col.ENDC)
         
-        user = input(col.BOLD + "Add your task: " + col.ENDC)
+        user = input(col.WARNING + "Add your task: " + col.ENDC)
 
         if user.lower() == 'e':
             selected_task = int(input("Which task do you want to edit? "))
@@ -159,10 +176,10 @@ def main():
         elif user.lower() == 'x':
             user = 'off'
             print(col.OKGREEN + "\nHave a good one!")
-            print(col.WARNING + "The program will exit now.\n")
+            print(col.OKGREEN + "The program will exit now.\n")
             time.sleep(1.5)
 
-        else:
+        else:            
             length = max(length,len(user))
             user = formatting(user, 
                             col.OKCYAN + '     [in progress]' + col.ENDC, 
