@@ -17,19 +17,6 @@ import os
 import pathlib
 import sys
 
-# ++++++++++++++++++++++++++++++++++++++
-#       Function to Format Text
-def formatting(s,m,l):
-    if l > len(s):
-        spaces = l-len(s)
-    else:
-        spaces = len(s)-l
-    
-    spaced_text = ''
-    for i in range(spaces):
-        spaced_text += ' '
-    return s + spaced_text + m
-
 # +++++++++++++++++++++++++++++++++++++
 # Function to print tasks and status
     
@@ -143,19 +130,17 @@ def main():
         if starting_point:
             printed = 1
             filling = 0
-            POMODORO_TIME = 50
-            TIME_INTERVAL = POMODORO_TIME/5
+            TIME_INTERVAL = POMODORO_TIME/4
             while time_passed < POMODORO_TIME:
                 if printed:
                     print(col.POMODORO + 
-                      f"Pomodoro Initialized: 50 min" 
+                      f"Pomodoro Initialized: {POMODORO_TIME} min" 
                       + col.NORMAL
                      )
                     printed = 0
                 
                 if filling:
-                    percentage = int((time_passed*100)/POMODORO_TIME)
-                    print(col.POMODORO + s10 + f" {percentage} % min " + s10 + col.NORMAL)
+                    print(col.POMODORO + s10 + f" {time_passed} min" + s10 + col.NORMAL)
                     filling = 0
                     time.sleep(60)
                          
@@ -165,10 +150,15 @@ def main():
                     filling = 1
                     
             if time_passed >= POMODORO_TIME:
-                print(col.POMODORO + 'Pomodoro COMPLETED' + s10 + col.NORMAL)
+                print(col.POMODORO + 'COMPLETED.' + 'Take a break.' + col.NORMAL)
+                time.sleep(3)
         
         # AUTOMATICALLY ASKS USER FOR INPUT FOR A TASK
-        user = input(col.ADDTASKS + "Add your task: " + col.NORMAL)
+        if not starting_point:
+            user = input(col.ADDTASKS + "Add your task: " + col.NORMAL)
+        else:
+            starting_point = 0
+            user = ''
 
         # IF THE USER ONLY WRITES A SINGLE LETTER THE FOLLOWING MAY HAPPEN
         if user.lower() == 'e': # EDIT
@@ -201,6 +191,7 @@ def main():
                 status[selected_task] = '[tomorrow]  '
             
         elif user.lower() == '+': #POMODORO STARTS
+            POMODORO_TIME = int(input(col.DESIGN + "Amount of minutes? " + col.NORMAL))
             starting_point = time.time()
             time_passed = 0
 
