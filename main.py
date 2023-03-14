@@ -130,7 +130,7 @@ def main():
         if starting_point:
             printed = 1
             filling = 0
-            TIME_INTERVAL = POMODORO_TIME/4
+            TIME_INTERVAL = POMODORO_TIME/5
             while time_passed < POMODORO_TIME:
                 if printed:
                     print(col.POMODORO + 
@@ -140,7 +140,7 @@ def main():
                     printed = 0
                 
                 if filling:
-                    print(col.POMODORO + s10 + f" {time_passed} min" + s10 + col.NORMAL)
+                    print(col.POMODORO + s10 + f" {int(time_passed)} min" + s10 + col.NORMAL)
                     filling = 0
                     time.sleep(60)
                          
@@ -162,7 +162,7 @@ def main():
 
         # IF THE USER ONLY WRITES A SINGLE LETTER THE FOLLOWING MAY HAPPEN
         if user.lower() == 'e': # EDIT
-            selected_task = int(input("Which task do you want to edit? "))
+            selected_task = int(input("Which task do you want to edit? ")) - 1
             if activities and selected_task < len(activities):
                 user_e = input(col.ADDTASKS + "Rewrite here: ")
                 right_separation = WIDTH - 10 - len(user_e) - 1 - len('[in progress]')
@@ -172,21 +172,22 @@ def main():
                     activities[selected_task] = user_e
 
         elif user.lower() == 'd': # DELETE TASK
-            selected_task = int(input(col.DESIGN + "Which task do you want to delete? "))
+            selected_task = int(input(col.DESIGN + "Which task do you want to delete? ")) - 1
             corroborate = input(col.DESIGN + "Sure? Yes (y) " + col.NORMAL)
             if corroborate.lower() == 'y' and (activities and selected_task < len(activities)):
                 del activities[selected_task]
                 del status[selected_task]
 
         elif user.lower() == 'r': # TASK READY
-            selected_task = int(input(col.DESIGN + "Which task did you complete? " + col.NORMAL))
+            selected_task = int(input(col.DESIGN + "Which task did you complete? " 
+                                      + col.NORMAL)) - 1
             if activities and selected_task < len(activities):
                 status[selected_task] = '[done]   '
                     
         elif user.lower() == 't': # FOR TOMORROW
             selected_task = int(input(col.DESIGN 
                                       + "Which task do you want to postpone? " 
-                                      + col.NORMAL))
+                                      + col.NORMAL)) - 1
             if activities and selected_task < len(activities):
                 status[selected_task] = '[tomorrow]  '
             
