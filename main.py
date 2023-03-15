@@ -10,8 +10,7 @@
 import title as t
 
 # external libraries
-from datetime import date
-from datetime import datetime
+from datetime import datetime, timedelta, date
 import time
 import os
 import pathlib
@@ -49,62 +48,130 @@ class col:
 
 #++++++++++++++++++++++++++++++++++++++
 def main():
+    # INITIALIZE VARIABLES WITH DEFAULT VALUE
+    WIDTH = 80 #standard width of a terminal window
+    # main variables employed through the program
+    user = ''
+    activities = []
+    status = []
+    # space formats
+    s5 = '     '
+    s10 = s5*2
+    # time variables
+    starting_point = 0
+    ending_point = 0
+    
+    # Welcome Screen
+    t.title()
+    time.sleep(1.5)
+    
+    # Initializiation
+    os.system('clear')
+    today_date = date.today().strftime("%b %d, %Y")
+    print(col.DESIGN)
+    print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
+    print( s10+s10+ "|||   Make Your Day a Good Day!   |||")
+    print( s10+s10+ "|||          MQRD v0.9            |||")
+    print( s10+s10+f"|||         {today_date}          |||")
+    print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
+    print( "\n")   
+    
+    # +++++++++++++++++++++++++++++++++++++++++++++
+    user = input(col.DESIGN + "Start with yesterday's undone tasks? (y/n) " + col.NORMAL)
+    if user.lower() == 'y':
+        yesterday = date.today()-timedelta(days=1)
+        folder_name =  yesterday.strftime("%b%Y")
+        try:
+            # checks path's existence --> os.path.exists(folder_name)
+            os.makedirs(folder_name)
+        except:
+            # folder already exists
+            pass
+        os.chdir(folder_name)
+        
+        file_name = yesterday.strftime("%d")
+        try:
+            g = open(file_name,'r')
+        except:
+            pass
+
+        #++++++++++++++++++++++++++++++++++++++++
+        count_sessions = 0
+        for line in g:
+            if "THIS SESSION ENDED AT" in line:
+                count_sessions += 1
+        
+        omit_sessions = 0
+        omit_first_two_lines = 0
+        g.seek(0)
+        for line in g:
+            if "THIS SESSION ENDED AT" in line:
+                omit_sessions += 1
+                
+            if count_sessions == omit_sessions:
+                if omit_first_two_lines > 2:
+                    if 'DONE TASKS' not in line:
+                        activities.append(line.split('\n')[0])
+                        status.append('[in progress]')
+                    else:
+                        break
+                else:
+                    omit_first_two_lines += 1            
+        g.close()
+        os.chdir("..")
+        
+    
     # we define the name of the folder via the name of the month and year
-    folder_name = date.today().strftime("%b%Y")
+    present_folder_name = date.today().strftime("%b%Y")
     # if path doesn't exist we create it
     try:
         # checks path's existence --> os.path.exists(folder_name)
-        os.makedirs(folder_name)
+        os.makedirs(present_folder_name)
     except:
         # folder already exists
         pass
-    os.chdir(folder_name)
+    os.chdir(present_folder_name)
 
     # the file will be name by the number of the day within the month
-    file_name = date.today().strftime("%d")
+    present_file_name = date.today().strftime("%d")
     try:
-        f = open(file_name,'a+')
+        f = open(present_file_name,'a+')
     except:
         pass
 
     #++++++++++++++++++++++++++++++++++++++++
-
-    t.title()
-    time.sleep(1.5)
-    
-    # INITIALIZE VARIABLES WITH DEFAULT VALUE
-    WIDTH = 80 #standard width of a terminal window
-    length = 0
-    user = ''
-    activities = []
-    status = []
-
     f.seek(0) # this is require when using append
-    omit_first_two = 0
+    count_sessions = 0
     for line in f:
-        if omit_first_two > 2:
-            if 'DONE TASKS' not in line:
-                activities.append(line.split('\n')[0])
-                status.append('[in progress]')
+        if "THIS SESSION ENDED AT" in line:
+            count_sessions += 1
+            
+    omit_sessions = 0
+    omit_first_two_lines = 0
+    f.seek(0)
+    for line in f:
+        if "THIS SESSION ENDED AT" in line:
+            omit_sessions += 1
+
+        if count_sessions == omit_sessions:
+            if omit_first_two_lines > 2:
+                if 'DONE TASKS' not in line:
+                    activities.append(line.split('\n')[0])
+                    status.append('[in progress]')
+                else:
+                    break
             else:
-                break
-        else:
-            omit_first_two += 1
+                omit_first_two_lines += 1
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
-    s5 = '     '
-    s10 = s5*2
-    starting_point = 0
-    ending_point = 0
     
     while user != 'off':
 
         os.system('clear')
-        today_date = date.today().strftime("%b %d, %Y")
         print(col.DESIGN)
         print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
         print( s10+s10+ "|||   Make Your Day a Good Day!   |||")
-        print( s10+s10+ "|||          MQRD v0.8            |||")
+        print( s10+s10+ "|||          MQRD v0.9            |||")
         print( s10+s10+f"|||         {today_date}          |||")
         print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
         print( "\n")
@@ -142,7 +209,7 @@ def main():
                 if filling:
                     print(col.POMODORO + s10 + f" {int(time_passed)} min" + s10 + col.NORMAL)
                     filling = 0
-                    time.sleep(60)
+                    time.sleep(TIME_INTERVAL)
                          
                 ending_point = time.time() 
                 if (ending_point - starting_point)/60 - time_passed > TIME_INTERVAL :
@@ -151,54 +218,95 @@ def main():
                     
             if time_passed >= POMODORO_TIME:
                 print(col.POMODORO + 'COMPLETED.' + 'Take a break.' + col.NORMAL)
-                time.sleep(3)
         
         # AUTOMATICALLY ASKS USER FOR INPUT FOR A TASK
         if not starting_point:
             user = input(col.ADDTASKS + "Add your task: " + col.NORMAL)
         else:
             starting_point = 0
-            user = ''
+            ending_point = 0
+            user = '[00time_passed00]'
 
         # IF THE USER ONLY WRITES A SINGLE LETTER THE FOLLOWING MAY HAPPEN
         if user.lower() == 'e': # EDIT
-            selected_task = int(input("Which task do you want to edit? ")) - 1
-            if activities and selected_task < len(activities):
-                user_e = input(col.ADDTASKS + "Rewrite here: ")
-                right_separation = WIDTH - 10 - len(user_e) - 1 - len('[in progress]')
-                if right_separation < 0:
-                    print('Too many characters in the sentence.')
+            selected_task = input(col.DESIGN + "Which task do you want to edit? " + col.NORMAL)
+            if selected_task.isdigit():
+                selected_task = int(selected_task) - 1
+                if activities and selected_task < len(activities):
+                    user_e = input(col.ADDTASKS + "Rewrite here: " + col.NORMAL)
+                    right_separation = WIDTH - 10 - len(user_e) - 1 - len('[in progress]')
+                    if right_separation < 0:
+                        print(col.DESIGN + 'Too many characters in the sentence.' +
+                             col.NORMAL)
+                    else:
+                        activities[selected_task] = user_e
                 else:
-                    activities[selected_task] = user_e
+                    print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
+                    time.sleep(1.5)
+            else:
+                print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
+                time.sleep(1.5)
 
         elif user.lower() == 'd': # DELETE TASK
-            selected_task = int(input(col.DESIGN + "Which task do you want to delete? ")) - 1
-            corroborate = input(col.DESIGN + "Sure? Yes (y) " + col.NORMAL)
-            if corroborate.lower() == 'y' and (activities and selected_task < len(activities)):
-                del activities[selected_task]
-                del status[selected_task]
+            selected_task = input(col.DESIGN + "Which task do you want to delete? " + col.NORMAL)
+            if selected_task.isdigit():
+                selected_task = int(selected_task) - 1
+                corroborate = input(col.DESIGN + "Sure? Yes (y) " + col.NORMAL)
+                if corroborate.lower() == 'y' and (activities and selected_task < len(activities)):
+                    del activities[selected_task]
+                    del status[selected_task]
+                else:
+                    print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
+                    time.sleep(1.5)
+            else:
+                print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
+                time.sleep(1.5)
 
         elif user.lower() == 'r': # TASK READY
-            selected_task = int(input(col.DESIGN + "Which task did you complete? " 
-                                      + col.NORMAL)) - 1
-            if activities and selected_task < len(activities):
-                status[selected_task] = '[done]   '
+            selected_task = input(col.DESIGN + "Which task did you complete? " 
+                                      + col.NORMAL)
+            if selected_task.isdigit():
+                selected_task = int(selected_task) - 1
+                if activities and selected_task < len(activities):
+                    status[selected_task] = '[done]   '
+                else:
+                    print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
+                    time.sleep(1.5)
+            else:
+                print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
+                time.sleep(1.5)
                     
         elif user.lower() == 't': # FOR TOMORROW
-            selected_task = int(input(col.DESIGN 
+            selected_task = input(col.DESIGN 
                                       + "Which task do you want to postpone? " 
-                                      + col.NORMAL)) - 1
-            if activities and selected_task < len(activities):
-                status[selected_task] = '[tomorrow]  '
+                                      + col.NORMAL)
+            if selected_task.isdigit():
+                selected_task = int(selected_task) - 1
+                if activities and selected_task < len(activities):
+                    status[selected_task] = '[tomorrow] '
+                else:
+                    print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
+                    time.sleep(1.5)
+            else:
+                print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
+                time.sleep(1.5)
             
         elif user.lower() == '+': #POMODORO STARTS
-            POMODORO_TIME = int(input(col.DESIGN + "Amount of minutes? " + col.NORMAL))
-            starting_point = time.time()
-            time_passed = 0
+            POMODORO_TIME = input(col.DESIGN + "Amount of minutes? " + col.NORMAL)
+            if POMODORO_TIME.isdigit():
+                POMODORO_TIME = int(POMODORO_TIME)
+                starting_point = time.time()
+                time_passed = 0
+            else:
+                print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
+                time.sleep(1.5)
 
         elif user.lower() == 'x': # EXIT
             user = 'off'
             print(col.DESIGN + "\nHave a good one!")
+        
+        elif user == '[00time_passed00]': # WHEN A POMODORO ENDS
+            time.sleep(3)
 
         else: # HERE IT AUTOMATICALLY ADDS TASKS TO A LIST WITH ITS CORRESPONDING STATUS         
             right_separation = WIDTH - 10 - len(user) - len('[in progress]')
