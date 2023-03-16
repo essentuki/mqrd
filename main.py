@@ -154,7 +154,7 @@ def main():
             omit_sessions += 1
 
         if count_sessions == omit_sessions:
-            if omit_first_two_lines > 2:
+            if omit_first_two_lines >= 2:
                 if 'DONE TASKS' not in line:
                     activities.append(line.split('\n')[0])
                     status.append('[in progress]')
@@ -207,9 +207,9 @@ def main():
                     printed = 0
                 
                 if filling:
-                    print(col.POMODORO + s10 + f" {int(time_passed)} min" + s10 + col.NORMAL)
+                    print(col.POMODORO + s10 + s10 + f"  {time_passed} min" + col.NORMAL)
                     filling = 0
-                    time.sleep(TIME_INTERVAL)
+                    time.sleep(TIME_INTERVAL*60)
                          
                 ending_point = time.time() 
                 if (ending_point - starting_point)/60 - time_passed > TIME_INTERVAL :
@@ -217,7 +217,7 @@ def main():
                     filling = 1
                     
             if time_passed >= POMODORO_TIME:
-                print(col.POMODORO + 'COMPLETED.' + 'Take a break.' + col.NORMAL)
+                print(col.POMODORO + 'COMPLETED.' + ' Take a break.  ' + col.NORMAL)
         
         # AUTOMATICALLY ASKS USER FOR INPUT FOR A TASK
         if not starting_point:
@@ -300,13 +300,17 @@ def main():
             else:
                 print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
                 time.sleep(1.5)
-
-        elif user.lower() == 'x': # EXIT
-            user = 'off'
-            print(col.DESIGN + "\nHave a good one!")
         
         elif user == '[00time_passed00]': # WHEN A POMODORO ENDS
             time.sleep(3)
+        
+        elif user == '-':
+            print(col.DESIGN + "Not available yet." + col.NORMAL)
+            time.sleep(2)
+            
+        elif user.lower() == 'x': # EXIT
+            user = 'off'
+            print(col.DESIGN + "\nHave a good one!")
 
         else: # HERE IT AUTOMATICALLY ADDS TASKS TO A LIST WITH ITS CORRESPONDING STATUS         
             right_separation = WIDTH - 10 - len(user) - len('[in progress]')
