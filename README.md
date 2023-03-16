@@ -1,9 +1,11 @@
 # MQRD
-Make Your Day a Good Day! - Agenda (To-Dos) for a terminal
+Make Your Day a Good Day! - To-Do List for a Terminal
 
-A project for those who love the terminal and the simplicity of doing everything from their keyboard.
+Current version: 0.9
 
-The first attempt is using Python and Procedural Oriented Programming. 
+A program for those who love the terminal and the efficiency of doing everything from their keyboard.
+
+This first attempt was using Python and Procedural Oriented Programming. 
 
 Created Features:
 - Add an element in automatic mode
@@ -11,28 +13,10 @@ Created Features:
 - Delete an element
 - Check an element as done
 - Postpone an element for next day
+- Start Pomodoro with a defined time
 - Exit the program
-- After exiting, if open again, it recovers the day's task
+- After exiting, if open again, it recovers the undone day's task
+- Is possible to recover the undone tasks of the previous day
 - It creates a log file, with all changes occurring during a day
 
-
-The plan is to keep updating it as much as needed.
-
-For those knowing spanish:
-
-This is the info from the initial planning (in spanish):
-
-Agenda del Día (desde la terminal) 
-    *1era fase: muestra fecha*, agregas actividades y le puedes agregar DONE y luego exit
-    *2da  fase: un timer y la posibilidad de un pomodoro con puro codigo ASCII
-    *3era fase: guarda pendientes y les da prioridad al siguiente día
-    *4ta  fase: estadisticas del pomodoro
-    *5ta  fase: personalizable (duracion pomodoro, break, activar/desactivar 3era fase/COLORES)
-    *6ta  fase: a prueba de errores (char / int / float / etc...)
-    *7ma  fase: agregas una figura como profile y la guarda (gatos, perros, aves, etc...)
-    *OBSERVACI: considerar tamaño estandar del tamaño de la ventana de la terminal
-    *submit   : app para linux (?) // podría ser más rápida con C++?
-
-
-HOW TO INSTALL IT?
-to come...
+The second attempt will consist in using Classes (OOP).
