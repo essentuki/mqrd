@@ -15,6 +15,7 @@ import time
 import os
 import pathlib
 import sys
+from pytimedinput import timedInput
 
 # +++++++++++++++++++++++++++++++++++++
 # Function to print tasks and status
@@ -71,13 +72,21 @@ def main():
     print(col.DESIGN)
     print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
     print( s10+s10+ "|||   Make Your Day a Good Day!   |||")
-    print( s10+s10+ "|||          MQRD v0.9            |||")
+    print( s10+s10+ "|||          MQRD v1.0            |||")
     print( s10+s10+f"|||         {today_date}          |||")
     print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
     print( "\n")   
     
     # +++++++++++++++++++++++++++++++++++++++++++++
-    user = input(col.DESIGN + "Start with yesterday's undone tasks? (y/n) " + col.NORMAL)
+    WAITING_TIME = 3
+    user,timedOut = timedInput(col.DESIGN 
+                    + "Load yesterday's pending tasks?"
+                    + " [YES = Enter (" + col.ADDTASKS + "y" + col.DESIGN + ") / NO = wait 3 s] " 
+                               + col.NORMAL, timeout = WAITING_TIME)
+    if timedOut:
+        print(col.DESIGN + "Time Expired. The program will now continue." + col.NORMAL)
+        time.sleep(1.5)
+        
     if user.lower() == 'y':
         yesterday = date.today()-timedelta(days=1)
         folder_name =  yesterday.strftime("%b%Y")
@@ -92,32 +101,34 @@ def main():
         file_name = yesterday.strftime("%d")
         try:
             g = open(file_name,'r')
+            count_sessions = 0
+            for line in g:
+                if "THIS SESSION ENDED AT" in line:
+                    count_sessions += 1
+
+            omit_sessions = 0
+            omit_first_two_lines = 0
+            g.seek(0)
+            for line in g:
+                if "THIS SESSION ENDED AT" in line:
+                    omit_sessions += 1
+
+                if count_sessions == omit_sessions:
+                    if omit_first_two_lines > 2:
+                        if 'DONE TASKS' not in line:
+                            activities.append(line.split('\n')[0])
+                            status.append('[in progress]')
+                        else:
+                            break
+                    else:
+                        omit_first_two_lines += 1            
+            g.close()
         except:
+            print("No previous session found.")
+            time.sleep(1)
             pass
 
         #++++++++++++++++++++++++++++++++++++++++
-        count_sessions = 0
-        for line in g:
-            if "THIS SESSION ENDED AT" in line:
-                count_sessions += 1
-        
-        omit_sessions = 0
-        omit_first_two_lines = 0
-        g.seek(0)
-        for line in g:
-            if "THIS SESSION ENDED AT" in line:
-                omit_sessions += 1
-                
-            if count_sessions == omit_sessions:
-                if omit_first_two_lines > 2:
-                    if 'DONE TASKS' not in line:
-                        activities.append(line.split('\n')[0])
-                        status.append('[in progress]')
-                    else:
-                        break
-                else:
-                    omit_first_two_lines += 1            
-        g.close()
         os.chdir("..")
         
     
@@ -171,7 +182,7 @@ def main():
         print(col.DESIGN)
         print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
         print( s10+s10+ "|||   Make Your Day a Good Day!   |||")
-        print( s10+s10+ "|||          MQRD v0.9            |||")
+        print( s10+s10+ "|||          MQRD v1.0            |||")
         print( s10+s10+f"|||         {today_date}          |||")
         print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
         print( "\n")
@@ -207,7 +218,7 @@ def main():
                     printed = 0
                 
                 if filling:
-                    print(col.POMODORO + s10 + s10 + f"  {time_passed} min" + col.NORMAL)
+                    print(col.POMODORO + "Time passed:" + f"{int(time_passed)} min" + s10 + col.NORMAL)
                     filling = 0
                     time.sleep(TIME_INTERVAL*60)
                          
@@ -344,4 +355,10 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# In[ ]:
+
+
+
 

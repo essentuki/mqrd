@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[18]:
+# In[1]:
 
 
 import os
@@ -47,12 +47,12 @@ def title():
 .##.....##.##....##..##....##..##.....##.
 .##.....##..#####.##.##.....##.########..
 """)
-    time.sleep(0.7)
+    time.sleep(0.75)
 
-    print("   ......  v0.9 - 03/15/2023   ......")
+    print("   ......  v1.0 - 03/20/2023   ......")
     time.sleep(0.5)
     print("        ----  Make Your Day  ----   ")
     time.sleep(0.5)
     print("          --   A Good Day!  --    ")
-    time.sleep(1)
+    time.sleep(1.5)
 
