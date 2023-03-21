@@ -16,6 +16,7 @@ import os
 import pathlib
 import sys
 from pytimedinput import timedInput
+from playsound import playsound
 
 # +++++++++++++++++++++++++++++++++++++
 # Function to print tasks and status
@@ -72,7 +73,7 @@ def main():
     print(col.DESIGN)
     print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
     print( s10+s10+ "|||   Make Your Day a Good Day!   |||")
-    print( s10+s10+ "|||          MQRD v1.0            |||")
+    print( s10+s10+ "|||           MQRD v1.0           |||")
     print( s10+s10+f"|||         {today_date}          |||")
     print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
     print( "\n")   
@@ -182,7 +183,7 @@ def main():
         print(col.DESIGN)
         print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
         print( s10+s10+ "|||   Make Your Day a Good Day!   |||")
-        print( s10+s10+ "|||          MQRD v1.0            |||")
+        print( s10+s10+ "|||           MQRD v1.0           |||")
         print( s10+s10+f"|||         {today_date}          |||")
         print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
         print( "\n")
@@ -218,7 +219,7 @@ def main():
                     printed = 0
                 
                 if filling:
-                    print(col.POMODORO + "Time passed:" + f"{int(time_passed)} min" + s10 + col.NORMAL)
+                    print(col.DESIGN + "Time passed: " + f"{time_passed} min" + col.NORMAL)
                     filling = 0
                     time.sleep(TIME_INTERVAL*60)
                          
@@ -228,7 +229,8 @@ def main():
                     filling = 1
                     
             if time_passed >= POMODORO_TIME:
-                print(col.POMODORO + 'COMPLETED.' + ' Take a break.  ' + col.NORMAL)
+                print(col.POMODORO + 'COMPLETED.' + ' Take a break.   ' + col.NORMAL)
+                playsound('/usr/share/sounds/LinuxMint/stereo/dialog-warning.ogg')
         
         # AUTOMATICALLY ASKS USER FOR INPUT FOR A TASK
         if not starting_point:
