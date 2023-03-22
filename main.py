@@ -79,10 +79,11 @@ def main():
     print( "\n")   
     
     # +++++++++++++++++++++++++++++++++++++++++++++
-    WAITING_TIME = 3
+    WAITING_TIME = 5
     user,timedOut = timedInput(col.DESIGN 
                     + "Load yesterday's pending tasks?"
-                    + " [YES = Enter (" + col.ADDTASKS + "y" + col.DESIGN + ") / NO = wait 3 s] " 
+                    + " [YES = Enter (" + col.ADDTASKS + "y" + col.DESIGN 
+                               + f") / NO = wait {WAITING_TIME} s] " 
                                + col.NORMAL, timeout = WAITING_TIME)
     if timedOut:
         print(col.DESIGN + "Time Expired. The program will now continue." + col.NORMAL)
@@ -115,7 +116,7 @@ def main():
                     omit_sessions += 1
 
                 if count_sessions == omit_sessions:
-                    if omit_first_two_lines > 2:
+                    if omit_first_two_lines >= 2:
                         if 'DONE TASKS' not in line:
                             activities.append(line.split('\n')[0])
                             status.append('[in progress]')
