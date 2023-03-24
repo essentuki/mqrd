@@ -1,7 +1,7 @@
 # MQRD
 Make Your Day a Good Day! - To-Do List for a Terminal
 
-Current version: 1.0
+Current version: 1.1
 
 A program for those who love the terminal and the efficiency of doing everything from their keyboard.
 
