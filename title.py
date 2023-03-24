@@ -49,7 +49,7 @@ def title():
 """)
     time.sleep(0.75)
 
-    print("   ......  v1.0 - 03/20/2023   ......")
+    print("   ......  v1.1 - 03/24/2023   ......")
     time.sleep(0.5)
     print("        ----  Make Your Day  ----   ")
     time.sleep(0.5)
