@@ -5,6 +5,12 @@ Current version: 1.1
 
 A program for those who love the terminal and the efficiency of doing everything from their keyboard.
 
+Why MQRD? It's a funny way to shorten the expression Make Your Day. 
+
+                  (M)-a-(KeYou)-(RD)-ay = MQRD 
+
+Reminding ourselves that we are responsible for anything that happens on our day.
+
 This first attempt was using Python and Procedural Oriented Programming. 
 
 Created Features:
