@@ -53,7 +53,7 @@ def previous_tasks(user, activities = []):
 
     #++++++++++++++++++++++++++++++++++++++++
         os.chdir("..")
-        return activities
+    return activities
 
 def today_pending_tasks(activities = []):
     """
