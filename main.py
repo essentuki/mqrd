@@ -70,11 +70,12 @@ def main():
     """
     The following code loads previous tasks from the previous day.
     """
-    previous_tasks(user)        
+    activities = previous_tasks(user,activities)
     """
     This part will load those pending tasks from the same day.
     """
-    today_pending_tasks(activities, status)
+    activities = today_pending_tasks(activities)
+    status = ['[in progress]']*len(activities)
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
     """
