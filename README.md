@@ -30,4 +30,4 @@ The second attempt will consist in replicating it with Classes (OOP).
 INSTALLATION:
 To properly run the program your system requires you to install the following python packages.
 
-     pip install playsound pytimedinput
+    pip install playsound pytimedinput
