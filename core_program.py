@@ -26,9 +26,10 @@ def core_program(user = '', activities = [], status = []):
     user == 'r' it enters into CHECKING as done mode
     user == 't' it enters into POSTPONING an activity for tomorrow mode
     user == '+' it starts a POMODORO
+    user == '-' it allows personalization of some features
     """
     # INITIALIZE VARIABLES WITH DEFAULT VALUE
-    WIDTH = 80 #standard width (cloumns) of a terminal window
+    WIDTH = 80 #standard width (columns) of a terminal window
     # space formats
     s5 = '     '
     s10 = s5*2
@@ -49,11 +50,14 @@ def core_program(user = '', activities = [], status = []):
         print( s10+s10+ "|||||||||||||||||||||||||||||||||||||")
         print( "\n")
         print( s10+s5 + "   Add  |  Edit (e)  |  Del (d)  |  Exit (x)")
-        print( "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")       
+        print( "|"*WIDTH )       
         print("||" + " "*(WIDTH-4) + "||")
         if activities: 
             for i,val in enumerate(activities):
-                print_task(f"[{i+1}]. {val}",status[i])       
+                if i+1 < 10:
+                    print_task(f"[{i+1}]. {val}",status[i],0)   
+                else:
+                    print_task(f"[{i+1}]. {val}",status[i],1)
         else:
             complement_space = WIDTH - 2*len(s5) - len(s10+s10+"  [No pending activities]")
             print(col.DESIGN + "||   "
@@ -62,7 +66,7 @@ def core_program(user = '', activities = [], status = []):
                  + col.DESIGN + "   ||"
                  )
         print(col.DESIGN + "||" + " "*(WIDTH-4) + "||")
-        print( "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+        print( "|"*WIDTH )
         print( s10+" Ready (r)  |  Tomorrow (t)  |  Pomodoro (+)  |  Config (-)")
         print(col.NORMAL)
         
@@ -108,12 +112,7 @@ def core_program(user = '', activities = [], status = []):
                 selected_task = int(selected_task) - 1
                 if activities and selected_task < len(activities):
                     user_e = input(col.ADDTASKS + "Rewrite here: " + col.NORMAL)
-                    right_separation = WIDTH - 10 - len(user_e) - 1 - len('[in progress]')
-                    if right_separation < 0:
-                        print(col.DESIGN + 'Too many characters in the sentence.' +
-                             col.NORMAL)
-                    else:
-                        activities[selected_task] = user_e
+                    activities[selected_task] = user_e
                 else:
                     print(col.DESIGN + "Your input seems wrong. Try again." + col.NORMAL)
                     time.sleep(1.5)
@@ -125,7 +124,11 @@ def core_program(user = '', activities = [], status = []):
             selected_task = input(col.DESIGN + "Which task do you want to delete? " + col.NORMAL)
             if selected_task.isdigit():
                 selected_task = int(selected_task) - 1
-                corroborate = input(col.DESIGN + "Sure? Yes (y) " + col.NORMAL)
+                corroborate = input(col.DESIGN 
+                                    + "Sure? Yes (" 
+                                    + col.ADDTASKS + "y"
+                                    + col.DESIGN + ") "
+                                    + col.NORMAL)
                 if corroborate.lower() == 'y' and (activities and selected_task < len(activities)):
                     del activities[selected_task]
                     del status[selected_task]
@@ -187,11 +190,6 @@ def core_program(user = '', activities = [], status = []):
             print(col.DESIGN + "\nHave a good one!")
 
         else: # HERE IT AUTOMATICALLY ADDS TASKS TO A LIST WITH ITS CORRESPONDING STATUS         
-            right_separation = WIDTH - 10 - len(user) - len('[in progress]')
-            if right_separation < 0:
-                print(col.DESIGN + 'Too many characters in the sentence.' + col.NORMAL)
-                time.sleep(1.5)
-            else:
-                activities.append(user)
-                status.append('[in progress]')
+            activities.append(user)
+            status.append('[in progress]')
 
