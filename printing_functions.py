@@ -53,6 +53,7 @@ def print_task(task = '', status = [], flag = 0):
                 right_separation = WIDTH - 10 - len(line)
             print(col.ADDTASKS + line, end = '')
             if idx == len(multiple_lines_task) - 1:
+                right_separation = WIDTH - 10 - len(line) - len(status)
                 break
             print(' '*right_separation, end = '')
             print(col.DESIGN + '   ||')
