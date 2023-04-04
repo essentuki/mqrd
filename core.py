@@ -8,7 +8,6 @@
 import menu
 import design
 import config as c
-import printing_functions as pf
 
 # python libraries
 import os
@@ -27,19 +26,17 @@ def Program(user = '', activities = [], status = []):
     The automatic one is adding a new pending activity.
     user == 'e' it enters into EDITING mode
     user == 'd' it enters into REMOVING mode
+    user == 'n' it enters into/exits from NOTES mode
     user == 'x' it exits the program
-    user == 'r' it enters into CHECKING as done mode
-    user == 't' it enters into POSTPONING an activity for tomorrow mode
-    user == 'p' it enters into WORKING an activity for 'in progress' mode
+    user == 'r' it changes the STATUS to 'done'
+    user == 't' it changes the STATUS to 'tomorrow'
+    user == 'p' it changes the STATUS to 'in progress'
     user == '+' it starts a POMODORO
     user == '-' it allows personalization of some features
     """
     # INITIALIZE VARIABLES WITH DEFAULT VALUE
     notes = []
     notes_activated = 0
-    # space formats
-    s5 = '     '
-    s10 = s5*2
     # time variables
     timer = 0
     
@@ -54,33 +51,9 @@ def Program(user = '', activities = [], status = []):
         
         # printing of tasks/notes
         if notes_activated:
-            if notes:
-                multiline = 0
-                for i,val in enumerate(notes):
-                    if i+1 > 9:
-                        multiline = 1    
-                    pf.printTask(f"[{i+1}]. {val}", '', multiline, notes_activated)   
-            else:
-                complement_space = c.WIDTH - 2*len(s5) - len(s10+s10+s5+"  [Empty Notepad]")
-                print(c.col.DESIGN + "||   "
-                     + c.col.INPROGRESS + s10+s10+s5+"  [Empty Notepad]"
-                     + ' '*complement_space  
-                     + c.col.DESIGN + "   ||"
-                     )
+            menu.printMessage(notes, notes_activated, [])
         else:
-            if activities: 
-                multiline = 0
-                for i,val in enumerate(activities):
-                    if i+1 > 9:
-                        multiline = 1    
-                    pf.printTask(f"[{i+1}]. {val}", status[i], multiline, notes_activated)   
-            else:
-                complement_space = c.WIDTH - 2*len(s5) - len(s10+s10+"  [No pending activities]")
-                print(c.col.DESIGN + "||   "
-                     + c.col.ADDTASKS + s10+s10+"  [No pending activities]"
-                     + ' '*complement_space  
-                     + c.col.DESIGN + "   ||"
-                     )
+            menu.printMessage(activities, 0, status)
             
         # bottom design of the program starts printing here out 
         print(c.col.DESIGN + "||" + " "*(c.WIDTH-4) + "||")

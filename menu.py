@@ -4,10 +4,44 @@
 # In[ ]:
 
 
+# external libraries
 import time
 import playsound
 
+# modules
 import config as c
+import printings as p
+
+def printMessage(messages = [], notes_activated = 0, status = []):
+    """
+    Function that prints the tasks or the notes.
+    """
+    s5 = '     '
+    s10 = s5*2
+    if messages:
+        multiline = 0
+        for i,val in enumerate(messages):
+            if i+1 > 9:
+                multiline = 1
+            if status:
+                p.printTask(f"[{i+1}]. {val}", status[i], multiline, notes_activated)
+            else:
+                p.printTask(f"[{i+1}]. {val}", '', multiline, notes_activated)   
+    else:
+        if notes_activated:
+            message = s5 + "  [Empty Notepad]"
+        else:
+            message = "  [No pending activities]"
+            
+        complement_space = c.WIDTH - 2*len(s5) - len(s10+s10+message)     
+        if notes_activated:
+            print(c.col.DESIGN + "||   " + c.col.INPROGRESS + s10+s10+message
+                  + ' '*complement_space  + c.col.DESIGN + "   ||"
+                 )
+        else:
+            print(c.col.DESIGN + "||   " + c.col.ADDTASKS + s10+s10+message
+                  + ' '*complement_space  + c.col.DESIGN + "   ||"
+                 )
 
 def editTask(activities = []):
     """
@@ -107,5 +141,5 @@ def pomodoroTimer(timer = 0, POMODORO_TIME = 50, MUSIC_PATH = ''):
     if time_passed >= POMODORO_TIME:
         print(c.col.POMODORO + 'COMPLETED.' + ' Take a break.    ' + c.col.NORMAL)
         if MUSIC_PATH:
-            playsound.playsound(MUSIC_PATH)
+            playsound.playsound(MUSIC_PATH)    
 
