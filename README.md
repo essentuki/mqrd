@@ -1,7 +1,7 @@
-# MQRD
-Make Your Day a Good Day! - To-Do List for a Terminal
+# MQRD v1.2
+Make Your Day a Good Day! -- To-Do List for a Terminal
 
-Current version: 1.1
+Current version: 1.2
 
 A program for those who love the terminal and the efficiency of doing everything from their keyboard.
 
@@ -20,6 +20,8 @@ Created Features:
 - Check an element as done
 - Postpone an element for next day
 - Start Pomodoro with a defined time
+- Pomodoro stops and produces a sound
+- An additional option for daily notes
 - Exit the program
 - After exiting, if open again, it automatically recovers the pending day's tasks
 - It is possible to recover the undone tasks of the previous day
