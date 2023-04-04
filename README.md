@@ -1,5 +1,5 @@
 # MQRD v1.2
-Make Your Day a Good Day! -- To-Do List for a Terminal
+Make Your Day a Good Day! -- To-Do List program for a Terminal
 
 Current version: 1.2
 
