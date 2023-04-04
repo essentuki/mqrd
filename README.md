@@ -30,6 +30,13 @@ Created Features:
 The second attempt will consist in replicating it with Classes (OOP).
 
 INSTALLATION:
+
 To properly run the program your system requires you to install the following python packages.
 
     pip install playsound pytimedinput
+
+Download all the files. Then via the terminal situate yourself in the folder where you have the python files. From there run the mqrd.py file.
+
+    python mqrd.py
+
+To check log files just go to the same folder where all your files are.
