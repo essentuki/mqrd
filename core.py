@@ -63,7 +63,7 @@ def Program(user = '', activities = [], status = []):
         # ++++++++++++++++++++++++++++++++++++++
         # POMODORO
         if timer:
-            menu.pomodoroTimer(timer, POMODORO_TIME, c.MUSIC_PATH )
+            menu.pomodoroTimer(timer, POMODORO_TIME, c.MUSIC_TRACK )
         
         # ++++++++++++++++++++++++++++++++++++++
         # AUTOMATICALLY ASKS USER FOR INPUT FOR A TASK/NOTE
@@ -79,30 +79,40 @@ def Program(user = '', activities = [], status = []):
         # IF THE USER ONLY WRITES A SINGLE LETTER THE FOLLOWING MAY HAPPEN
         # ++++++++++++++++++++++++++++++++++++++
         if user.lower() == 'e': # EDIT
-            aux = menu.editTask(activities)
-            if aux:
-                activities = aux
+            if notes_activated:
+                aux = menu.editTask(notes)
+                if aux:
+                    activities = aux
+            else:
+                aux = menu.editTask(activities)
+                if aux:
+                    activities = aux
 
         elif user.lower() == 'd': # DELETE TASK
-            selected_task = menu.deleteTask(activities) 
-            if selected_task >= 0:
-                del activities[selected_task]
-                del status[selected_task]
+            if notes_activated:
+                selected_task = menu.deleteTask(notes) 
+                if selected_task >= 0:
+                    del notes[selected_task]
+            else:
+                selected_task = menu.deleteTask(activities) 
+                if selected_task >= 0:
+                    del activities[selected_task]
+                    del status[selected_task]
                 
         # ++++++++++++++++++++++++++++++++++++++
-        elif user.lower() == 'r': # TASK READY
+        elif user.lower() == 'r' and not notes_activated: # TASK READY
             aux = menu.checkTaskAs(status, '[done]   ')
             if aux:
                 status = aux
                 aux = []
                     
-        elif user.lower() == 't': # FOR TOMORROW
+        elif user.lower() == 't' and not notes_activated: # FOR TOMORROW
             aux = menu.checkTaskAs(status, '[tomorrow] ')
             if aux:
                 status = aux
                 aux = []
         
-        elif user.lower() == 'p': # IN PROGRESS
+        elif user.lower() == 'p' and not notes_activated: # IN PROGRESS
             aux = menu.checkTaskAs(status, '[in progress]')
             if aux:
                 status = aux

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[7]:
 
 
 """
@@ -18,8 +18,8 @@ WAITING_TIME = 5
 """
 Path to sound when a pomodoro is over.
 """
-MUSIC_PATH = '/usr/share/sounds/LinuxMint/stereo/dialog-warning.ogg'
-
+MUSIC_TRACK = 'mqrd_pomodoro.m4a'
+ 
 """
 Original Palette of Colors
 """
