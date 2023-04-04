@@ -4,9 +4,7 @@
 # In[16]:
 
 
-from colors import col
-"""Function to print tasks and status"""
-WIDTH = 80
+import config as c
 
 def cutLines(s,limit):
     """
@@ -33,45 +31,62 @@ def cutLines(s,limit):
         list_s.append(s)
     return list_s
     
-def print_task(task = '', status = [], flag = 0):
+def printTask(task = '', status = [], flag = 0, notes_activated = 0):
     """
     Print Task function.
     It has been considered the standard size of a terminal as (80 x 24).
     print_task(task -> string, status -> string)
     
     This functions prints a TASK and its STATUS. Each of them with a given color.
+    
+    flag = 0 means one digit number
+    flag = 1 means two digit number
     """
+    if notes_activated:
+        color = c.col.INPROGRESS
+    else:
+        color = c.col.ADDTASKS
+        
     multiple_lines_task = cutLines(task,54)
     if len(multiple_lines_task) > 1:
         for idx,line in enumerate(multiple_lines_task):
             if flag == 1:
-                print(col.DESIGN + '||  ', end = '')
-                right_separation = WIDTH - 9 - len(line)
+                print(c.col.DESIGN + '||  ', end = '')
+                right_separation = c.WIDTH - 9 - len(line)
                 flag = 0
             else:
-                print(col.DESIGN + '||   ', end = '')
-                right_separation = WIDTH - 10 - len(line)
-            print(col.ADDTASKS + line, end = '')
-            if idx == len(multiple_lines_task) - 1:
-                right_separation = WIDTH - 10 - len(line) - len(status)
-                break
-            print(' '*right_separation, end = '')
-            print(col.DESIGN + '   ||')
+                print(c.col.DESIGN + '||   ', end = '')
+                right_separation = c.WIDTH - 10 - len(line)
+                
+            print(color + line, end = '')
+
+            if idx == 0 and status:
+                right_separation -=  len(status)
+                print(' '*right_separation, end = '')
+                if 'progress' in status: 
+                    print(c.col.INPROGRESS + status + c.col.DESIGN + '   ||' + c.col.NORMAL)
+                elif 'done' in status:
+                    print(c.col.DONE + status + c.col.DESIGN + '   ||' + c.col.NORMAL)
+                else:
+                    print(c.col.FORTOMORROW + status + c.col.DESIGN + '   ||' + c.col.NORMAL)
+            else:
+                print(' '*right_separation, end = '')
+                print(c.col.DESIGN + '   ||' + c.col.NORMAL)
     else:
         if flag == 1:
-            print(col.DESIGN + '||  ', end = '')
-            right_separation = WIDTH - 9 - len(multiple_lines_task[-1]) - len(status)
+            print(c.col.DESIGN + '||  ', end = '')
+            right_separation = c.WIDTH - 9 - len(multiple_lines_task[-1]) - len(status)
             flag = 0
         else:
-            print(col.DESIGN + '||   ', end = '')
-            right_separation = WIDTH - 10 - len(multiple_lines_task[-1]) - len(status)
-        print(col.ADDTASKS + multiple_lines_task[-1], end = '')
+            print(c.col.DESIGN + '||   ', end = '')
+            right_separation = c.WIDTH - 10 - len(multiple_lines_task[-1]) - len(status)
+        print(color + multiple_lines_task[-1], end = '')
         
-    print(' '*right_separation, end = '')
-    if 'progress' in status: 
-        print(col.INPROGRESS + status + col.DESIGN + '   ||' + col.NORMAL)
-    elif 'done' in status:
-        print(col.DONE + status + col.DESIGN + '   ||' + col.NORMAL)
-    else:
-        print(col.FORTOMORROW + status + col.DESIGN + '   ||' + col.NORMAL)
+        print(' '*right_separation, end = '')
+        if 'progress' in status: 
+            print(c.col.INPROGRESS + status + c.col.DESIGN + '   ||' + c.col.NORMAL)
+        elif 'done' in status:
+            print(c.col.DONE + status + c.col.DESIGN + '   ||' + c.col.NORMAL)
+        else:
+            print(c.col.FORTOMORROW + status + c.col.DESIGN + '   ||' + c.col.NORMAL)
 

@@ -8,7 +8,7 @@ import os
 import time
 from datetime import datetime, timedelta, date
 
-def previous_tasks(user, activities = []):
+def previousTasks(user, activities = []):
     """
     This function takes user = 'y' as activation point. It will then try to look for
     a file from previous day and load those pending tasks.
@@ -55,7 +55,7 @@ def previous_tasks(user, activities = []):
         os.chdir("..")
     return activities
 
-def today_pending_tasks(activities = []):
+def todayPendingTasks(activities = []):
     """
     This function will automatically look for a previous session within the same day.
     If there is and there are pending tasks, then those will be loaded into the screen.
@@ -104,7 +104,11 @@ def today_pending_tasks(activities = []):
     os.chdir("..")
     return activities
 
-def closing_tasks(activities = [], status = []):
+def closingTasks(activities = [], status = []):
+    """
+    This function takes the tasks with their status and separates them between
+    done and pending ones.
+    """
     # we define the name of the folder via the name of the month and year
     present_folder_name = date.today().strftime("%b%Y")
     # if path doesn't exist we create it
