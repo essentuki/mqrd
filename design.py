@@ -82,7 +82,7 @@ def title(WIDTH = 80, today_date = 'Not given'):
     print( side + "|||||||||||||||||||||||||||||||||||||" )
     print( "\n" )
     
-def topMenu(WIDTH = 80):
+def top_menu(WIDTH = 80):
     """
     Options appearing at the top menu. In order to be correctly aligned we specify 
     the screen's WIDTH. The default value is set to 80 columns.
@@ -97,7 +97,7 @@ def topMenu(WIDTH = 80):
     print( "|" * WIDTH ) 
     print("||" + " "*(WIDTH-4) + "||")
 
-def bottomMenu(WIDTH = 80):
+def bottom_menu(WIDTH = 80):
     """
     Options appearing at the bottom menu. In order to be correctly aligned we specify 
     the screen's WIDTH. The default value is set to 80 columns.

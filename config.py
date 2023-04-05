@@ -23,53 +23,54 @@ MUSIC_TRACK = 'mqrd_pomodoro.m4a'
 """
 Palette of Colors
 """
-no_color = '\033[0m'
-white = "\033[97m"
-black = "\033[30m"
-red = "\033[31m"
-green = "\033[32m"
-yellow = "\033[33m"
-blue = "\033[34m"
-magenta = "\033[35m"
-cyan = "\033[36m"
-light_gray = "\033[37m"
-dark_gray = "\033[90m"
+NO_COLOR = '\033[0m'
+WHITE = "\033[97m"
+BLACK = "\033[30m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+MAGENTA = "\033[35m"
+CYAN = "\033[36m"
+LIGHT_GRAY = "\033[37m"
+DARK_GRAY = "\033[90m"
 
-light_red = "\033[91m"
-light_green = "\033[92m"
-light_yellow = "\033[93m"
-light_blue = "\033[94m"
-light_mangeta = "\033[95m"
-light_cyan = "\033[96m"
+LIGHT_RED = "\033[91m"
+LIGHT_GREEN = "\033[92m"
+LIGHT_YELLOW = "\033[93m"
+LIGHT_BLUE = "\033[94m"
+LIGHT_MAGENTA = "\033[95m"
+LIGHT_CYAN = "\033[96m"
 
-highlighted_dark_red = "\033[41m"
-highlighted_red = "\033[101m"
-highlighted_green = "\033[102m"
-highlighted_yellow = "\033[103m"
-highlighted_blue = "\033[104m"
-highlighted_magenta = "\033[105m"
-highlighted_cyan = "\033[106m"
+HIGHLIGHTED_DARK_RED = "\033[41m"
+HIGHLIGHTED_RED = "\033[101m"
+HIGHLIGHTED_GREEN = "\033[102m"
+HIGHLIGHTED_YELLOW = "\033[103m"
+HIGHLIGHTED_BLUE = "\033[104m"
+HIGHLIGHTED_MAGENTA = "\033[105m"
+HIGHLIGHTED_CYAN = "\033[106m"
 
-strikethrough = "\033[9m"
+STRIKETHROUGH = "\033[9m"
 
+# Color style
 class Color:    
     # MQRD Palette of Colors
-    DESIGN = light_blue
-    INPROGRESS = light_cyan
-    FORTOMORROW = light_green
-    ADDTASKS = light_yellow
-    POMODORO = highlighted_dark_red
-    STRIKE = strikethrough
-    DONE = light_red
-    NORMAL = no_color   
+    DESIGN = LIGHT_BLUE
+    INPROGRESS = LIGHT_CYAN
+    FORTOMORROW = LIGHT_GREEN
+    ADDTASKS = LIGHT_YELLOW
+    POMODORO = HIGHLIGHTED_DARK_RED
+    STRIKE = STRIKETHROUGH
+    DONE = LIGHT_RED
+    NORMAL = NO_COLOR   
 
 """
 class Color:
     # Two-tones palette
     DESIGN = white
-    INPROGRESS = light_gray
+    INPROGRESS = LIGHT_gray
     FORTOMORROW = dark_gray
-    ADDTASKS = light_gray
+    ADDTASKS = LIGHT_gray
     POMODORO = dark_gray
     DONE = dark_gray
     NORMAL = no_color

@@ -6,7 +6,7 @@
 
 import config as c
 
-def cutLines(s,limit):
+def cut_lines(s,limit):
     """
     The maximum length for a sentence is 49 characters. Beyond that amount, the code 
     tries to find a space to cut the sentence and print it in multiple lines.
@@ -31,7 +31,7 @@ def cutLines(s,limit):
         list_s.append('     ' + s)
     return list_s
     
-def printTask(task = '', status = [], flag = 0, notes_activated = 0):
+def print_task(task = '', status = '', flag = 0, notes_activated = 0):
     """
     Print Task function.
     It has been considered the standard size of a terminal as (80 x 24).
@@ -47,7 +47,7 @@ def printTask(task = '', status = [], flag = 0, notes_activated = 0):
     else:
         color = c.Color.ADDTASKS
         
-    multiple_lines_task = cutLines(task,54)
+    multiple_lines_task = cut_lines(task,54)
     if len(multiple_lines_task) > 1:
         for idx,line in enumerate(multiple_lines_task):
             if flag == 1:
@@ -57,9 +57,12 @@ def printTask(task = '', status = [], flag = 0, notes_activated = 0):
             else:
                 print(c.Color.DESIGN + '||   ', end = '')
                 right_separation = c.WIDTH - 10 - len(line)
+            
+            if 'done' in status:    
+                print(c.Color.STRIKE + color + line + c.Color.NORMAL, end = '')
+            else:
+                print(color + line, end = '')
                 
-            print(color + line, end = '')
-
             if idx == 0 and status:
                 right_separation -=  len(status)
                 print(' '*right_separation, end = '')
@@ -80,7 +83,11 @@ def printTask(task = '', status = [], flag = 0, notes_activated = 0):
         else:
             print(c.Color.DESIGN + '||   ', end = '')
             right_separation = c.WIDTH - 10 - len(multiple_lines_task[-1]) - len(status)
-        print(color + multiple_lines_task[-1], end = '')
+        
+        if 'done' in status:    
+            print(c.Color.STRIKE + color + multiple_lines_task[-1] + c.Color.NORMAL, end = '')
+        else:  
+            print(color + multiple_lines_task[-1], end = '')
         
         print(' '*right_separation, end = '')
         if 'progress' in status: 

@@ -57,25 +57,25 @@ def main():
     The following code loads previous tasks from the previous day.
     """
     if user.lower() == 'y':
-        activities = tasks.previousTasks(user, activities)
+        activities = tasks.previous_tasks(user, activities)
     """
     This part will load those pending tasks from the same day.
     """
-    activities = tasks.todayPendingTasks(activities)
+    activities = tasks.today_pending_tasks(activities)
     status = ['[in progress]']*len(activities)
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
     """
     CORE PROGRAM RUNS HERE
     """
-    core.Program(user, activities, status)
+    core.task_distributor(user, activities, status)
 # ++++++++++++++++++++++++++++++++++++++++++++++++
 
     """
     SAVING ACTIVITIES AND STATUS.
     CLOSES FILE.
     """
-    tasks.closingTasks(activities, status)
+    tasks.closing_tasks(activities, status)
     
     print(c.Color.DESIGN + "The program will exit now.\n")
     time.sleep(1.5)

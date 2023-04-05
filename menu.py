@@ -13,7 +13,7 @@ import playsound
 import config as c
 import printings as p
 
-def printMessage(messages = [], notes_activated = 0, status = []):
+def print_message(messages = [], notes_activated = 0, status = []):
     """
     Function that prints the tasks or the notes.
     """
@@ -25,9 +25,9 @@ def printMessage(messages = [], notes_activated = 0, status = []):
             if i+1 > 9:
                 multiline = 1
             if status:
-                p.printTask(f"[{i+1}]. {val}", status[i], multiline, notes_activated)
+                p.print_task(f"[{i+1}]. {val}", status[i], multiline, notes_activated)
             else:
-                p.printTask(f"[{i+1}]. {val}", '', multiline, notes_activated)   
+                p.print_task(f"[{i+1}]. {val}", '', multiline, notes_activated)   
     else:
         if notes_activated:
             message = s5 + "  [Empty Notepad]"
@@ -44,7 +44,7 @@ def printMessage(messages = [], notes_activated = 0, status = []):
                   + ' '*complement_space  + c.Color.DESIGN + "   ||"
                  )
 
-def editTask(activities = []):
+def edit_task(activities = []):
     """
     This function edits an element of the list of tasks. It will check if 
     it exists and if it does it will return a new list.
@@ -66,7 +66,7 @@ def editTask(activities = []):
     
     return activities
 
-def deleteTask(activities = []):
+def delete_task(activities = []):
     """
     This function deletes a task. It checks if the desired index exists and if it does
     it returns it so it can be later erased.
@@ -90,7 +90,7 @@ def deleteTask(activities = []):
         time.sleep(1.5)
         return -1
 
-def checkTaskAs(status = [], phrase = ''):
+def check_task_as(status = [], phrase = ''):
     """
     This function changes the status of a task as defined by the phrase.
     The initial status is always 'in progress'. This can be modified to
@@ -112,7 +112,7 @@ def checkTaskAs(status = [], phrase = ''):
         time.sleep(1.5)
         return []
 
-def pomodoroTimer(timer = 0, POMODORO_TIME = 50, MUSIC_TRACK = ''):
+def pomodoro_timer(timer = 0, POMODORO_TIME = 50, MUSIC_TRACK = ''):
     """
     This function simulates a pomodoro timer. 
     It stops with a sound.

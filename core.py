@@ -16,7 +16,7 @@ import time
 # installed libraries via pip
 from datetime import datetime, timedelta, date
 
-def Program(user = '', activities = [], status = []):
+def task_distributor(user = '', activities = [], status = []):
     """
     This function runs the main commands of the program.
     It creates the outer design and takes the user input to 
@@ -47,23 +47,23 @@ def Program(user = '', activities = [], status = []):
         today_date = date.today().strftime("%b %d, %Y")
         print(c.Color.DESIGN)
         design.title(c.WIDTH, today_date)
-        design.topMenu(c.WIDTH)
+        design.top_menu(c.WIDTH)
         
         # printing of tasks/notes
         if notes_activated:
-            menu.printMessage(notes, notes_activated, [])
+            menu.print_message(notes, notes_activated, [])
         else:
-            menu.printMessage(activities, 0, status)
+            menu.print_message(activities, 0, status)
             
         # bottom design of the program starts printing here out 
         print(c.Color.DESIGN + "||" + " "*(c.WIDTH-4) + "||")
-        design.bottomMenu(c.WIDTH)
+        design.bottom_menu(c.WIDTH)
         print(c.Color.NORMAL)
         
         # ++++++++++++++++++++++++++++++++++++++
         # POMODORO
         if timer:
-            menu.pomodoroTimer(timer, POMODORO_TIME, c.MUSIC_TRACK )
+            menu.pomodoro_timer(timer, POMODORO_TIME, c.MUSIC_TRACK )
         
         # ++++++++++++++++++++++++++++++++++++++
         # AUTOMATICALLY ASKS USER FOR INPUT FOR A TASK/NOTE
@@ -80,40 +80,40 @@ def Program(user = '', activities = [], status = []):
         # ++++++++++++++++++++++++++++++++++++++
         if user.lower() == 'e': # EDIT
             if notes_activated:
-                aux = menu.editTask(notes)
+                aux = menu.edit_task(notes)
                 if aux:
                     activities = aux
             else:
-                aux = menu.editTask(activities)
+                aux = menu.edit_task(activities)
                 if aux:
                     activities = aux
 
         elif user.lower() == 'd': # DELETE TASK
             if notes_activated:
-                selected_task = menu.deleteTask(notes) 
+                selected_task = menu.delete_task(notes) 
                 if selected_task >= 0:
                     del notes[selected_task]
             else:
-                selected_task = menu.deleteTask(activities) 
+                selected_task = menu.delete_task(activities) 
                 if selected_task >= 0:
                     del activities[selected_task]
                     del status[selected_task]
                 
         # ++++++++++++++++++++++++++++++++++++++
         elif user.lower() == 'r' and not notes_activated: # TASK READY
-            aux = menu.checkTaskAs(status, '[done]   ')
+            aux = menu.check_task_as(status, '[done]   ')
             if aux:
                 status = aux
                 aux = []
                     
         elif user.lower() == 't' and not notes_activated: # FOR TOMORROW
-            aux = menu.checkTaskAs(status, '[tomorrow] ')
+            aux = menu.check_task_as(status, '[tomorrow] ')
             if aux:
                 status = aux
                 aux = []
         
         elif user.lower() == 'p' and not notes_activated: # IN PROGRESS
-            aux = menu.checkTaskAs(status, '[in progress]')
+            aux = menu.check_task_as(status, '[in progress]')
             if aux:
                 status = aux
                 aux = []
