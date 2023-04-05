@@ -22,7 +22,7 @@ def Program(user = '', activities = [], status = []):
     It creates the outer design and takes the user input to 
     determine what to do.
     
-    The user input can take on different values.
+    The user input can take on diffecorent values.
     The automatic one is adding a new pending activity.
     user == 'e' it enters into EDITING mode
     user == 'd' it enters into REMOVING mode
@@ -45,7 +45,7 @@ def Program(user = '', activities = [], status = []):
         # top design of the program starts printing here out 
         os.system('clear')
         today_date = date.today().strftime("%b %d, %Y")
-        print(c.col.DESIGN)
+        print(c.Color.DESIGN)
         design.title(c.WIDTH, today_date)
         design.topMenu(c.WIDTH)
         
@@ -56,9 +56,9 @@ def Program(user = '', activities = [], status = []):
             menu.printMessage(activities, 0, status)
             
         # bottom design of the program starts printing here out 
-        print(c.col.DESIGN + "||" + " "*(c.WIDTH-4) + "||")
+        print(c.Color.DESIGN + "||" + " "*(c.WIDTH-4) + "||")
         design.bottomMenu(c.WIDTH)
-        print(c.col.NORMAL)
+        print(c.Color.NORMAL)
         
         # ++++++++++++++++++++++++++++++++++++++
         # POMODORO
@@ -69,9 +69,9 @@ def Program(user = '', activities = [], status = []):
         # AUTOMATICALLY ASKS USER FOR INPUT FOR A TASK/NOTE
         if not timer:
             if notes_activated:
-                user = input(c.col.INPROGRESS + "Add your note: " + c.col.NORMAL)
+                user = input(c.Color.INPROGRESS + "Add your note: " + c.Color.NORMAL)
             else:    
-                user = input(c.col.ADDTASKS + "Add your task: " + c.col.NORMAL)
+                user = input(c.Color.ADDTASKS + "Add your task: " + c.Color.NORMAL)
         else:
             timer = 0
             user = '[00time_passed00]'
@@ -120,12 +120,12 @@ def Program(user = '', activities = [], status = []):
                 
         # +++++++++++++++++++++++++++++++++++++++
         elif user.lower() == '+': #POMODORO STARTS
-            POMODORO_TIME = input(c.col.DESIGN + "Amount of minutes? " + c.col.NORMAL)
+            POMODORO_TIME = input(c.Color.DESIGN + "Amount of minutes? " + c.Color.NORMAL)
             if POMODORO_TIME.isdigit():
                 POMODORO_TIME = int(POMODORO_TIME)
                 timer = time.time()
             else:
-                print(c.col.DESIGN + "Your input seems wrong. Try again." + c.col.NORMAL)
+                print(c.Color.DESIGN + "Your input seems wrong. Try again." + c.Color.NORMAL)
                 time.sleep(1.5)
         
         elif user == '[00time_passed00]': # WHEN A POMODORO ENDS
@@ -139,12 +139,12 @@ def Program(user = '', activities = [], status = []):
                 notes_activated = 1
         
         elif user == '-': # Starts configuration screen
-            print(c.col.DESIGN + "Not available yet." + c.col.NORMAL)
+            print(c.Color.DESIGN + "Not available yet." + c.Color.NORMAL)
             time.sleep(2)
             
         elif user.lower() == 'x': # EXIT
             user = 'off'
-            print(c.col.DESIGN + "\nHave a good one!")
+            print(c.Color.DESIGN + "\nHave a good one!")
 
         else: # HERE IT AUTOMATICALLY ADDS TASKS TO A LIST WITH ITS CORRESPONDING STATUS         
             if notes_activated:

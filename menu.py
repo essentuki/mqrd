@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[8]:
 
 
 # external libraries
+import os
 import time
 import playsound
 
@@ -35,12 +36,12 @@ def printMessage(messages = [], notes_activated = 0, status = []):
             
         complement_space = c.WIDTH - 2*len(s5) - len(s10+s10+message)     
         if notes_activated:
-            print(c.col.DESIGN + "||   " + c.col.INPROGRESS + s10+s10+message
-                  + ' '*complement_space  + c.col.DESIGN + "   ||"
+            print(c.Color.DESIGN + "||   " + c.Color.INPROGRESS + s10+s10+message
+                  + ' '*complement_space  + c.Color.DESIGN + "   ||"
                  )
         else:
-            print(c.col.DESIGN + "||   " + c.col.ADDTASKS + s10+s10+message
-                  + ' '*complement_space  + c.col.DESIGN + "   ||"
+            print(c.Color.DESIGN + "||   " + c.Color.ADDTASKS + s10+s10+message
+                  + ' '*complement_space  + c.Color.DESIGN + "   ||"
                  )
 
 def editTask(activities = []):
@@ -48,18 +49,18 @@ def editTask(activities = []):
     This function edits an element of the list of tasks. It will check if 
     it exists and if it does it will return a new list.
     """
-    selected_task = input(c.col.DESIGN + "Which task do you want to edit? " + c.col.NORMAL)
+    selected_task = input(c.Color.DESIGN + "Which task do you want to edit? " + c.Color.NORMAL)
     if selected_task.isdigit():
         selected_task = int(selected_task) - 1
         if activities and selected_task < len(activities):
-            user_e = input(c.col.ADDTASKS + "Rewrite here: " + c.col.NORMAL)
+            user_e = input(c.Color.ADDTASKS + "Rewrite here: " + c.Color.NORMAL)
             activities[selected_task] = user_e
         else:
-            print(c.col.DESIGN + "Your input seems wrong. Try again." + c.col.NORMAL)
+            print(c.Color.DESIGN + "Your input seems wrong. Try again." + c.Color.NORMAL)
             time.sleep(1.5)
             return []
     else:
-        print(c.col.DESIGN + "Your input seems wrong. Try again." + c.col.NORMAL)
+        print(c.Color.DESIGN + "Your input seems wrong. Try again." + c.Color.NORMAL)
         time.sleep(1.5)
         return []
     
@@ -70,22 +71,22 @@ def deleteTask(activities = []):
     This function deletes a task. It checks if the desired index exists and if it does
     it returns it so it can be later erased.
     """
-    selected_task = input(c.col.DESIGN + "Which task do you want to delete? " + c.col.NORMAL)
+    selected_task = input(c.Color.DESIGN + "Which task do you want to delete? " + c.Color.NORMAL)
     if selected_task.isdigit():
         selected_task = int(selected_task) - 1
-        corroborate = input(c.col.DESIGN 
+        corroborate = input(c.Color.DESIGN 
                             + "Sure? Yes (" 
-                            + c.col.ADDTASKS + "y"
-                            + c.col.DESIGN + ") "
-                            + c.col.NORMAL)
+                            + c.Color.ADDTASKS + "y"
+                            + c.Color.DESIGN + ") "
+                            + c.Color.NORMAL)
         if corroborate.lower() == 'y' and (activities and selected_task < len(activities)):
             return selected_task
         else:
-            print(c.col.DESIGN + "Your input seems wrong. Try again." + c.col.NORMAL)
+            print(c.Color.DESIGN + "Your input seems wrong. Try again." + c.Color.NORMAL)
             time.sleep(1.5)
             return -1
     else:
-        print(c.col.DESIGN + "Your input seems wrong. Try again." + c.col.NORMAL)
+        print(c.Color.DESIGN + "Your input seems wrong. Try again." + c.Color.NORMAL)
         time.sleep(1.5)
         return -1
 
@@ -95,41 +96,42 @@ def checkTaskAs(status = [], phrase = ''):
     The initial status is always 'in progress'. This can be modified to
     'done' or 'tomorrow'. 
     """
-    selected_task = input(c.col.DESIGN + "Which task did you complete? " 
-                                      + c.col.NORMAL)
+    selected_task = input(c.Color.DESIGN + "Which task did you complete? " 
+                                      + c.Color.NORMAL)
     if selected_task.isdigit():
         selected_task = int(selected_task) - 1
         if status and selected_task < len(status):
             status[selected_task] = phrase
             return status
         else:
-            print(c.col.DESIGN + "Your input seems wrong. Try again." + c.col.NORMAL)
+            print(c.Color.DESIGN + "Your input seems wrong. Try again." + c.Color.NORMAL)
             time.sleep(1.5)
             return []
     else:
-        print(c.col.DESIGN + "Your input seems wrong. Try again." + c.col.NORMAL)
+        print(c.Color.DESIGN + "Your input seems wrong. Try again." + c.Color.NORMAL)
         time.sleep(1.5)
         return []
 
-def pomodoroTimer(timer = 0, POMODORO_TIME = 50, MUSIC_PATH = ''):
+def pomodoroTimer(timer = 0, POMODORO_TIME = 50, MUSIC_TRACK = ''):
     """
     This function simulates a pomodoro timer. 
     It stops with a sound.
     """
+    os.chdir('pomodoro_sounds')
     time_passed = 0
     printed = 1
     filling = 0
     TIME_INTERVAL = POMODORO_TIME/5
     while time_passed < POMODORO_TIME:
         if printed:
-            print(c.col.POMODORO + 
+            print(c.Color.POMODORO + 
               f"Pomodoro Initialized: {POMODORO_TIME} min" 
-              + c.col.NORMAL
+              + c.Color.NORMAL
              )
             printed = 0
 
         if filling:
-            print(c.col.DESIGN + "Time passed: " + f"{time_passed} min" + c.col.NORMAL)
+            print(c.Color.DESIGN + "Time passed: " + f"{time_passed} min" + c.Color.NORMAL)
             filling = 0
             time.sleep(TIME_INTERVAL*60)
 
@@ -139,7 +141,8 @@ def pomodoroTimer(timer = 0, POMODORO_TIME = 50, MUSIC_PATH = ''):
             filling = 1
 
     if time_passed >= POMODORO_TIME:
-        print(c.col.POMODORO + 'COMPLETED.' + ' Take a break.    ' + c.col.NORMAL)
-        if MUSIC_PATH:
-            playsound.playsound(MUSIC_PATH)    
+        print(c.Color.POMODORO + 'COMPLETED.' + ' Take a break.   ' + c.Color.NORMAL)
+        if MUSIC_TRACK:
+            playsound.playsound(MUSIC_TRACK) 
+            os.chdir("..")
 

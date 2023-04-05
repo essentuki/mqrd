@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[18]:
+# In[5]:
 
 
 import os
@@ -59,11 +59,11 @@ def intro(TIMING_STYLE = 0.75, COLOR = '\033[94m'):
          )
     time.sleep(TIMING_STYLE*1.5)
     
-    print("                    .............  v1.2 - 03/24/2023   ................")
+    print("                    .............  v1.2 - 03/24/2023   .................")
     time.sleep(0.67 * TIMING_STYLE)
-    print("                      ..........         Make Your Day       ............   ")
+    print("                      ..........       Make Your Day         .............   ")
     time.sleep(0.67 * TIMING_STYLE)
-    print("                        ........           A Good Day!            .........    ")
+    print("                         ........          A Good Day!             .........    ")
     time.sleep(1.5)
 
 def title(WIDTH = 80, today_date = 'Not given'):

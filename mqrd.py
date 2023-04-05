@@ -30,27 +30,27 @@ def main():
     
 # +++++++++++++++++++++++++++++++++++++++++++++    
     # Welcome Screen
-    design.intro(0.75, c.col.DESIGN)
+    design.intro(0.75, c.Color.DESIGN)
     time.sleep(1.5)
     
     # Initializiation & First Screen
     # User will be asked about previous pending tasks
     os.system('clear')
     today_date = date.today().strftime("%b %d, %Y")
-    print(c.col.DESIGN)
+    print(c.Color.DESIGN)
     design.title(c.WIDTH, today_date)   
     
 # +++++++++++++++++++++++++++++++++++++++++++++
     """
     This sections deals with the loading of pending tasks.
     """
-    user,timedOut = pytimedinput.timedInput(c.col.DESIGN 
+    user,timedOut = pytimedinput.timedInput(c.Color.DESIGN 
                     + "Load yesterday's pending tasks?"
-                    + " [YES = Enter (" + c.col.ADDTASKS + "y" + c.col.DESIGN 
+                    + " [YES = Enter (" + c.Color.ADDTASKS + "y" + c.Color.DESIGN 
                                + f") / NO = wait {c.WAITING_TIME} s] " 
-                               + c.col.NORMAL, timeout = c.WAITING_TIME)
+                               + c.Color.NORMAL, timeout = c.WAITING_TIME)
     if timedOut:
-        print(c.col.DESIGN + "Time Expired. The program will now continue." + c.col.NORMAL)
+        print(c.Color.DESIGN + "Time Expired. The program will now continue." + c.Color.NORMAL)
         time.sleep(1.5)
     
     """
@@ -77,7 +77,7 @@ def main():
     """
     tasks.closingTasks(activities, status)
     
-    print(c.col.DESIGN + "The program will exit now.\n")
+    print(c.Color.DESIGN + "The program will exit now.\n")
     time.sleep(1.5)
     os.system('clear')
 
