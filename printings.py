@@ -6,29 +6,35 @@
 
 import config as c
 
-def cut_lines(s,limit):
+def cut_lines(s, notes_activated = 0):
     """
     The maximum length for a sentence is 49 characters. Beyond that amount, the code 
     tries to find a space to cut the sentence and print it in multiple lines.
     """
+    if notes_activated:
+        #WIDTH - 10
+        limit = 70 
+    else:
+        #WIDTH - 10 - Status
+        limit = 54
+        
     list_s = []
     if len(s) <= limit:
         list_s.append(s)
         return list_s
     
+    indent_off = 1
     while len(s) > limit:
         for i in range(limit,-1,-1):
             if s[i] == ' ':
-                if list_s:
-                    list_s.append(s[:i])
-                    s = '     ' + s[i+1:]
-                else:
-                    list_s.append(s[:i])
-                    s = s[i+1:]
+                list_s.append(s[:i])
+                s = '     ' + s[i+1:]
                 break
-        limit = 49
+        if indent_off:
+            limit -= 5
+            indent_off = 0
     if s:
-        list_s.append('     ' + s)
+        list_s.append(s)
     return list_s
     
 def print_task(task = '', status = '', flag = 0, notes_activated = 0):
@@ -47,7 +53,7 @@ def print_task(task = '', status = '', flag = 0, notes_activated = 0):
     else:
         color = c.Color.ADDTASKS
         
-    multiple_lines_task = cut_lines(task,54)
+    multiple_lines_task = cut_lines(task, notes_activated)
     if len(multiple_lines_task) > 1:
         for idx,line in enumerate(multiple_lines_task):
             if flag == 1:
