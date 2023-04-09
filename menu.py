@@ -17,6 +17,10 @@ def print_message(messages = [], notes_activated = 0, status = []):
     """
     Function that prints the tasks or the notes.
     """
+    color_code = {
+            'notes': c.Color.INPROGRESS,
+            'tasks': c.Color.ADDTASKS   
+                }
     s5 = '     '
     s10 = s5*2
     if messages:
@@ -24,25 +28,17 @@ def print_message(messages = [], notes_activated = 0, status = []):
         for i,val in enumerate(messages):
             if i+1 > 9:
                 multiline = 1
-            if status:
-                p.print_task(f"[{i+1}]. {val}", status[i], multiline, notes_activated)
+            if notes_activated:
+                p.print_task(f"[{i+1}]. {val}", '', multiline, notes_activated)
             else:
-                p.print_task(f"[{i+1}]. {val}", '', multiline, notes_activated)   
+                p.print_task(f"[{i+1}]. {val}", status[i], multiline, notes_activated)   
     else:
-        if notes_activated:
-            message = s5 + "  [Empty Notepad]"
-        else:
-            message = "  [No pending activities]"
-            
-        complement_space = c.WIDTH - 2*len(s5) - len(s10+s10+message)     
-        if notes_activated:
-            print(c.Color.DESIGN + "||   " + c.Color.INPROGRESS + s10+s10+message
-                  + ' '*complement_space  + c.Color.DESIGN + "   ||"
-                 )
-        else:
-            print(c.Color.DESIGN + "||   " + c.Color.ADDTASKS + s10+s10+message
-                  + ' '*complement_space  + c.Color.DESIGN + "   ||"
-                 )
+        message = s5 + "  [Empty Notepad]" if notes_activated else "  [No pending activities]"    
+        complement_space = c.WIDTH - 2*len(s5) - len(s10+s10+message)
+        color = color_code['notes'] if notes_activated else color_code['tasks']
+        print(c.Color.DESIGN + "||   " + color + s10+s10+message
+              + ' '*complement_space  + c.Color.DESIGN + "   ||"
+             )
 
 def edit_task(activities = []):
     """
@@ -96,11 +92,11 @@ def check_task_as(status = [], phrase = ''):
     The initial status is always 'in progress'. This can be modified to
     'done' or 'tomorrow'. 
     """
-    selected_task = input(c.Color.DESIGN + "Which task did you complete? " 
+    selected_task = input(c.Color.DESIGN + "Which task's status do you want to change? " 
                                       + c.Color.NORMAL)
     if selected_task.isdigit():
         selected_task = int(selected_task) - 1
-        if status and selected_task < len(status):
+        if status and 0 < selected_task < len(status):
             status[selected_task] = phrase
             return status
         else:

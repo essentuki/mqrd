@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
+# In[1]:
 
 
 import os
@@ -14,7 +14,7 @@ def intro(TIMING_STYLE = 0.75, COLOR = '\033[94m'):
     Second variable represents the color of the characters.
     """ 
     os.system('clear')
-    print(COLOR + """   .....     
+    print(COLOR + """   ............     
      ............##.....##.
        ..........###...###.
          ........####.####.
@@ -63,7 +63,7 @@ def intro(TIMING_STYLE = 0.75, COLOR = '\033[94m'):
     time.sleep(0.67 * TIMING_STYLE)
     print("                      ..........       Make Your Day         .............   ")
     time.sleep(0.67 * TIMING_STYLE)
-    print("                         ........          A Good Day!             .........    ")
+    print("                        .........          A Good Day!             .........    ")
     time.sleep(1.5)
 
 def title(WIDTH = 80, today_date = 'Not given'):

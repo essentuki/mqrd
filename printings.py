@@ -1,105 +1,62 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[16]:
+# In[37]:
 
 
 import config as c
 
-def cut_lines(s, notes_activated = 0):
-    """
-    The maximum length for a sentence is 49 characters. Beyond that amount, the code 
-    tries to find a space to cut the sentence and print it in multiple lines.
-    """
-    if notes_activated:
-        #WIDTH - 10
-        limit = 70 
-    else:
-        #WIDTH - 10 - Status
-        limit = 54
-        
+def cut_lines(s = '', notes_activated = 0):
+    """ The maximum length for a sentence is 49 characters. Otherwise, it splits."""
+    limit = c.WIDTH - 10 if notes_activated else c.WIDTH - 10 - len('[in progress]')   
     list_s = []
     if len(s) <= limit:
         list_s.append(s)
         return list_s
-    
     indent_off = 1
     while len(s) > limit:
         for i in range(limit,-1,-1):
             if s[i] == ' ':
-                list_s.append(s[:i])
-                s = '     ' + s[i+1:]
+                list_s.append(s[:i]) if indent_off else list_s.append('     ' + s[:i])
+                s = s[i+1:]
                 break
         if indent_off:
             limit -= 5
             indent_off = 0
     if s:
-        list_s.append(s)
+        list_s.append('     ' + s)
     return list_s
     
 def print_task(task = '', status = '', flag = 0, notes_activated = 0):
+    """ This functions prints a TASK and its STATUS. Each of them with a given color. 
+        It has been considered the standard size of a terminal as (80 x 24).
+        flag = 0 means one digit number, flag = 1 means two digit number          
     """
-    Print Task function.
-    It has been considered the standard size of a terminal as (80 x 24).
-    print_task(task -> string, status -> string)
-    
-    This functions prints a TASK and its STATUS. Each of them with a given color.
-    
-    flag = 0 means one digit number
-    flag = 1 means two digit number
-    """
-    if notes_activated:
-        color = c.Color.INPROGRESS
-    else:
-        color = c.Color.ADDTASKS
-        
+    color = c.Color.INPROGRESS if notes_activated else c.Color.ADDTASKS
     multiple_lines_task = cut_lines(task, notes_activated)
-    if len(multiple_lines_task) > 1:
-        for idx,line in enumerate(multiple_lines_task):
-            if flag == 1:
-                print(c.Color.DESIGN + '||  ', end = '')
-                right_separation = c.WIDTH - 9 - len(line)
-                flag = 0
-            else:
-                print(c.Color.DESIGN + '||   ', end = '')
-                right_separation = c.WIDTH - 10 - len(line)
-            
-            if 'done' in status:    
-                print(c.Color.STRIKE + color + line + c.Color.NORMAL, end = '')
-            else:
-                print(color + line, end = '')
-                
-            if idx == 0 and status:
-                right_separation -=  len(status)
-                print(' '*right_separation, end = '')
-                if 'progress' in status: 
-                    print(c.Color.INPROGRESS + status + c.Color.DESIGN + '   ||' + c.Color.NORMAL)
-                elif 'done' in status:
-                    print(c.Color.DONE + status + c.Color.DESIGN + '   ||' + c.Color.NORMAL)
-                else:
-                    print(c.Color.FORTOMORROW + status + c.Color.DESIGN + '   ||' + c.Color.NORMAL)
-            else:
-                print(' '*right_separation, end = '')
-                print(c.Color.DESIGN + '   ||' + c.Color.NORMAL)
-    else:
-        if flag == 1:
-            print(c.Color.DESIGN + '||  ', end = '')
-            right_separation = c.WIDTH - 9 - len(multiple_lines_task[-1]) - len(status)
-            flag = 0
-        else:
-            print(c.Color.DESIGN + '||   ', end = '')
-            right_separation = c.WIDTH - 10 - len(multiple_lines_task[-1]) - len(status)
-        
+    for idx,line in enumerate(multiple_lines_task):
+        print(c.Color.DESIGN + '||  ', end = '')
+        right_separation = c.WIDTH - 9 - len(line)
+        if flag == 0:
+            print(' ', end = '')
+            right_separation -= 1 
+        flag = 0
+
         if 'done' in status:    
-            print(c.Color.STRIKE + color + multiple_lines_task[-1] + c.Color.NORMAL, end = '')
-        else:  
-            print(color + multiple_lines_task[-1], end = '')
-        
-        print(' '*right_separation, end = '')
-        if 'progress' in status: 
-            print(c.Color.INPROGRESS + status + c.Color.DESIGN + '   ||' + c.Color.NORMAL)
-        elif 'done' in status:
-            print(c.Color.DONE + status + c.Color.DESIGN + '   ||' + c.Color.NORMAL)
+            print(c.Color.STRIKE + color + line + c.Color.NORMAL, end = '')
         else:
-            print(c.Color.FORTOMORROW + status + c.Color.DESIGN + '   ||' + c.Color.NORMAL)
+            print(color + line, end = '')
+        
+        if idx == 0 and status:
+            right_separation -=  len(status)
+            print(' '*right_separation, end = '')
+            if 'progress' in status: 
+                print(c.Color.INPROGRESS + status, end = '')
+            elif 'done' in status:
+                print(c.Color.DONE + status, end = '')
+            else:
+                print(c.Color.FORTOMORROW + status, end = '')
+        else:
+            print(' '*right_separation, end = '')
+        print(c.Color.DESIGN + '   ||' + c.Color.NORMAL)
 

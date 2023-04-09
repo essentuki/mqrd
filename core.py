@@ -37,6 +37,15 @@ def task_distributor(user = '', activities = [], status = []):
     # INITIALIZE VARIABLES WITH DEFAULT VALUE
     notes = []
     notes_activated = 0
+    status_dic = {
+            'r': '[done]   ',
+            't': '[tomorrow] ',
+            'p': '[in progress]'
+            }
+    notes_or_tasks = {
+            1 : notes,
+            0 : activities,
+            }
     # time variables
     timer = 0
     
@@ -50,10 +59,7 @@ def task_distributor(user = '', activities = [], status = []):
         design.top_menu(c.WIDTH)
         
         # printing of tasks/notes
-        if notes_activated:
-            menu.print_message(notes, notes_activated, [])
-        else:
-            menu.print_message(activities, 0, status)
+        menu.print_message(notes_or_tasks[notes_activated], notes_activated, status)
             
         # bottom design of the program starts printing here out 
         print(c.Color.DESIGN + "||" + " "*(c.WIDTH-4) + "||")
@@ -79,41 +85,20 @@ def task_distributor(user = '', activities = [], status = []):
         # IF THE USER ONLY WRITES A SINGLE LETTER THE FOLLOWING MAY HAPPEN
         # ++++++++++++++++++++++++++++++++++++++
         if user.lower() == 'e': # EDIT
-            if notes_activated:
-                aux = menu.edit_task(notes)
-                if aux:
-                    activities = aux
-            else:
-                aux = menu.edit_task(activities)
-                if aux:
-                    activities = aux
+            aux = menu.edit_task(notes_or_tasks[notes_activated])
+            if aux:
+                activities = aux
 
         elif user.lower() == 'd': # DELETE TASK
-            if notes_activated:
-                selected_task = menu.delete_task(notes) 
-                if selected_task >= 0:
-                    del notes[selected_task]
-            else:
-                selected_task = menu.delete_task(activities) 
-                if selected_task >= 0:
-                    del activities[selected_task]
-                    del status[selected_task]
+            selected_task = menu.delete_task(notes_or_tasks[notes_activated])
+            if selected_task >= 0:
+                del notes_or_tasks[notes_activated][selected_task]
+            if not notes_activated:
+                del status[selected_task]
                 
         # ++++++++++++++++++++++++++++++++++++++
-        elif user.lower() == 'r' and not notes_activated: # TASK READY
-            aux = menu.check_task_as(status, '[done]   ')
-            if aux:
-                status = aux
-                aux = []
-                    
-        elif user.lower() == 't' and not notes_activated: # FOR TOMORROW
-            aux = menu.check_task_as(status, '[tomorrow] ')
-            if aux:
-                status = aux
-                aux = []
-        
-        elif user.lower() == 'p' and not notes_activated: # IN PROGRESS
-            aux = menu.check_task_as(status, '[in progress]')
+        elif user.lower() in status_dic and not notes_activated: 
+            aux = menu.check_task_as(status, status_dic[user.lower()])
             if aux:
                 status = aux
                 aux = []
@@ -133,10 +118,7 @@ def task_distributor(user = '', activities = [], status = []):
         
         # ++++++++++++++++++++++++++++++++++++++++++
         elif user.lower() == 'n': #Starts/Ends notes' screen
-            if notes_activated:
-                notes_activated = 0
-            else:
-                notes_activated = 1
+            notes_activated = 0 if notes_activated else 1
         
         elif user == '-': # Starts configuration screen
             print(c.Color.DESIGN + "Not available yet." + c.Color.NORMAL)

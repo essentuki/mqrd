@@ -8,23 +8,10 @@ import os
 import time
 from datetime import datetime, timedelta, date
 
-def previous_tasks(user, activities = []):
-    """
-    This function takes user = 'y' as activation point. It will then try to look for
-    a file from previous day and load those pending tasks.
-    """
-    if user.lower() == 'y':
-        yesterday = date.today() - timedelta(days=1)
-        folder_name =  yesterday.strftime("%b%Y")
-        try:
-            os.makedirs(folder_name)
-        except:
-            pass
-        os.chdir(folder_name)
-        
-        file_name = yesterday.strftime("%d")
-        try:
-            g = open(file_name,'r')
+def loading_from_a_file(filename, activities = []):
+    """Opens a file with a context manager. Checks for content. Returns content."""
+    try:
+        with open(filename,'r') as g:
             count_sessions = 0
             for line in g:
                 if "THIS SESSION ENDED AT" in line:
@@ -45,13 +32,30 @@ def previous_tasks(user, activities = []):
                             break
                     else:
                         omit_first_two_lines += 1            
-            g.close()
-        except:
-            print("No previous session found.")
-            time.sleep(1)
-            pass
+    except:
+        print("No previous session found.")
+        time.sleep(1)
+        pass
 
-    #++++++++++++++++++++++++++++++++++++++++
+    return activities
+
+def previous_tasks(user, activities = []):
+    """
+    This function takes user = 'y' as activation point. It will then try to look for
+    a file from previous day and load those pending tasks.
+    """
+    if user.lower() == 'y':
+        yesterday = date.today() - timedelta(days=1)
+        folder_name =  yesterday.strftime("%b%Y")
+        try:
+            os.makedirs(folder_name)
+        except:
+            pass
+        os.chdir(folder_name)
+        
+        file_name = yesterday.strftime("%d")
+        activities = loading_from_a_file(file_name, activities)
+
         os.chdir("..")
     return activities
 
@@ -73,34 +77,9 @@ def today_pending_tasks(activities = []):
 
     # the file will be name by the number of the day within the month
     present_file_name = date.today().strftime("%d")
-    try:
-        f = open(present_file_name,'a+')
-    except:
-        pass
+    activities = loading_from_a_file(present_file_name, activities)
 
     #++++++++++++++++++++++++++++++++++++++++
-    f.seek(0) # this is require when using append. Takes pointer back to the file's origin.
-    count_sessions = 0
-    for line in f:
-        if "THIS SESSION ENDED AT" in line:
-            count_sessions += 1
-            
-    omit_sessions = 0
-    omit_first_two_lines = 0
-    f.seek(0)
-    for line in f:
-        if "THIS SESSION ENDED AT" in line:
-            omit_sessions += 1
-
-        if count_sessions == omit_sessions:
-            if omit_first_two_lines >= 2:
-                if 'DONE TASKS' not in line:
-                    activities.append(line.split('\n')[0])
-                else:
-                    break
-            else:
-                omit_first_two_lines += 1
-    f.close()
     os.chdir("..")
     return activities
 
@@ -123,24 +102,21 @@ def closing_tasks(activities = [], status = []):
     # the file will be name by the number of the day within the month
     present_file_name = date.today().strftime("%d")
     try:
-        f = open(present_file_name,'a+')
+        with open(present_file_name,'a+') as f:
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+            f.seek(0)
+            f.write(f"THIS SESSION ENDED AT {current_time}. \n")
+            f.write("IN PROGRESS OR FOR TOMORROW TASKS \n")
+            for i,val in enumerate(activities):
+                if '[done]' not in status[i]:
+                    f.write(val + "\n")
+
+            f.write('DONE TASKS \n')
+            for i,val in enumerate(activities):
+                if '[done]' in status[i]:
+                    f.write(val + " was DONE. \n")
+            f.write("END OF SESSION \n \n")
     except:
         pass
-    
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    f.seek(0)
-    f.write(f"THIS SESSION ENDED AT {current_time}. \n")
-    f.write("IN PROGRESS OR FOR TOMORROW TASKS \n")
-    for i,val in enumerate(activities):
-        if '[done]' not in status[i]:
-            f.write(val + "\n")
-            
-    f.write('DONE TASKS \n')
-    for i,val in enumerate(activities):
-        if '[done]' in status[i]:
-            f.write(val + " was DONE. \n")
-    f.write("END OF SESSION \n \n")
-
-    f.close()
 
