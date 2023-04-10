@@ -27,8 +27,6 @@ Created Features:
 - It is possible to recover the undone tasks of the previous day
 - It creates a file, with all changes occurring during a day
 
-The second attempt will consist in replicating it with Classes (OOP).
-
 INSTALLATION:
 
 To properly run the program your system requires you to install the following python packages.
@@ -40,3 +38,13 @@ Download all the files. Then via the terminal situate yourself in the folder whe
     python mqrd.py
 
 To check log files just go to the same folder where all your files are.
+
+HOW TO USE IT:
+- It automatically adds tasks.
+- One can edit/check/delete/postpone/uncheck them by only entering a character 
+  e/r/d/t/p and correctly choosing the index.
+- It is possible to enter into Notes mode by entering n. To exit it we enter again the n letter.
+- One may start a Pomodoro by entering the symbol +
+- To exit we enter x
+
+Notes will not be saved. 
