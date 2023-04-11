@@ -16,6 +16,8 @@ Reminding ourselves that we are responsible for anything that happens on our day
 
 This first attempt was using Python and Procedural Oriented Programming. 
 
+![mqrdv12](https://user-images.githubusercontent.com/11930196/231283274-5b567ca2-c1cd-4551-b1d8-c1e642100ebb.png)
+
 Created Features:
 - Add an element in automatic mode
 - Edit an element
