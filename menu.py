@@ -96,7 +96,7 @@ def check_task_as(status = [], phrase = ''):
                                       + c.Color.NORMAL)
     if selected_task.isdigit():
         selected_task = int(selected_task) - 1
-        if status and 0 < selected_task < len(status):
+        if status and 0 <= selected_task < len(status):
             status[selected_task] = phrase
             return status
         else:
