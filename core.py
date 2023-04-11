@@ -91,10 +91,10 @@ def task_distributor(user = '', activities = [], status = []):
 
         elif user.lower() == 'd': # DELETE TASK
             selected_task = menu.delete_task(notes_or_tasks[notes_activated])
-            if selected_task >= 0:
+            if selected_task != -1:
                 del notes_or_tasks[notes_activated][selected_task]
-            if not notes_activated:
-                del status[selected_task]
+                if not notes_activated:
+                    del status[selected_task]
                 
         # ++++++++++++++++++++++++++++++++++++++
         elif user.lower() in status_dic and not notes_activated: 

@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[37]:
+# In[8]:
 
 
 import config as c
 
 def cut_lines(s = '', notes_activated = 0):
     """ The maximum length for a sentence is 49 characters. Otherwise, it splits."""
-    limit = c.WIDTH - 10 if notes_activated else c.WIDTH - 10 - len('[in progress]')   
+    limit = c.WIDTH - 10 if notes_activated else c.WIDTH - 10 - len(' [in progress]')   
     list_s = []
     if len(s) <= limit:
         list_s.append(s)
@@ -20,6 +20,10 @@ def cut_lines(s = '', notes_activated = 0):
                 list_s.append(s[:i]) if indent_off else list_s.append('     ' + s[:i])
                 s = s[i+1:]
                 break
+            # If it reaches the beginning of the line which has '[number]. ' 
+            if i == 6:
+                list_s.append(s[:limit]) if indent_off else list_s.append('     ' + s[:limit])
+                s = s[limit:]
         if indent_off:
             limit -= 5
             indent_off = 0
