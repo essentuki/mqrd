@@ -1,4 +1,7 @@
+![image](https://user-images.githubusercontent.com/11930196/231281450-8a6c384e-51e4-4f38-b058-915b36b9802e.png)
+
 # MQRD v1.2
+
 Make Your Day a Good Day! -- To-Do List program for a Terminal
 
 Current version: 1.2
