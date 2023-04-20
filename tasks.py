@@ -16,27 +16,21 @@ def loading_from_a_file(filename, activities = []):
             for line in g:
                 if "THIS SESSION ENDED AT" in line:
                     count_sessions += 1
-
             omit_sessions = 0
             omit_first_two_lines = 0
             g.seek(0)
             for line in g:
                 if "THIS SESSION ENDED AT" in line:
                     omit_sessions += 1
-
                 if count_sessions == omit_sessions:
-                    if omit_first_two_lines >= 2:
-                        if 'DONE TASKS' not in line:
-                            activities.append(line.split('\n')[0])
-                        else:
+                    omit_first_two_lines += 1
+                    if omit_first_two_lines > 2:
+                        if 'DONE TASKS' in line:
                             break
-                    else:
-                        omit_first_two_lines += 1            
-    except:
+                        activities.append(line.split('\n')[0])  
+    except FileNotFoundError:
         print("No previous session found.")
         time.sleep(1)
-        pass
-
     return activities
 
 def previous_tasks(user, activities = []):
@@ -68,7 +62,6 @@ def today_pending_tasks(activities = []):
     present_folder_name = date.today().strftime("%b%Y")
     # if path doesn't exist we create it
     try:
-        # checks path's existence --> os.path.exists(folder_name)
         os.makedirs(present_folder_name)
     except:
         # folder already exists
@@ -78,8 +71,7 @@ def today_pending_tasks(activities = []):
     # the file will be name by the number of the day within the month
     present_file_name = date.today().strftime("%d")
     activities = loading_from_a_file(present_file_name, activities)
-
-    #++++++++++++++++++++++++++++++++++++++++
+    
     os.chdir("..")
     return activities
 

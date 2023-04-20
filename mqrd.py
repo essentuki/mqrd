@@ -6,7 +6,7 @@
 
 #!/usr/bin/env python
 
-# modules
+# Created modules
 import core
 import tasks
 import design
@@ -17,12 +17,12 @@ import os
 import sys
 import time
 
-# installed libraries via pip install
+# Installed libraries via pip install
 import pytimedinput
 from datetime import date
 
 def main():
-#   INITIALIZE VARIABLES WITH DEFAULT VALUE
+#   Initialize variables with default value
     user, activities, status = '', [], []
        
 #   Welcome Screen
@@ -30,7 +30,6 @@ def main():
     time.sleep(1.5)
     
 #   Initializiation & First Screen
-#   User will be asked about previous pending tasks
     os.system('clear')
     today_date = date.today().strftime("%b %d, %Y")
     print(c.Color.DESIGN)
@@ -56,10 +55,8 @@ def main():
 
 #   CORE PROGRAM RUNS HERE
     core.task_distributor(user, activities, status)
-
     
-#   SAVING ACTIVITIES AND STATUS.
-#   CLOSES FILE.
+#   SAVING ACTIVITIES AND STATUS. CLOSES FILE.
     tasks.closing_tasks(activities, status)
     
     print(c.Color.DESIGN + "The program will exit now.\n")
