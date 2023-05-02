@@ -47,7 +47,7 @@ def main():
         
 #   The following code loads previous tasks from the previous day.
     if user.lower() == 'y':
-        activities = tasks.previous_tasks(user, activities)
+        activities = tasks.previous_tasks(activities)
 
 #   This part will load those pending tasks from the same day.
     activities = tasks.today_pending_tasks(activities)
