@@ -10,23 +10,26 @@ from datetime import datetime, timedelta, date
 
 def loading_from_a_file(filename, activities = []):
     """Opens a file with a context manager. Checks for content. Returns content."""
-    with open(filename,'r') as g:
-        count_sessions = 0
-        for line in g:
-            if "THIS SESSION ENDED AT" in line:
-                count_sessions += 1
-        omit_sessions = 0
-        omit_first_two_lines = 0
-        g.seek(0)
-        for line in g:
-            if "THIS SESSION ENDED AT" in line:
-                omit_sessions += 1
-            if count_sessions == omit_sessions:
-                omit_first_two_lines += 1
-                if omit_first_two_lines > 2:
-                    if 'DONE TASKS' in line:
-                        break
-                    activities.append(line.split('\n')[0])  
+    try:
+        with open(filename,'r') as g:
+            count_sessions = 0
+            for line in g:
+                if "THIS SESSION ENDED AT" in line:
+                    count_sessions += 1
+            omit_sessions = 0
+            omit_first_two_lines = 0
+            g.seek(0)
+            for line in g:
+                if "THIS SESSION ENDED AT" in line:
+                    omit_sessions += 1
+                if count_sessions == omit_sessions:
+                    omit_first_two_lines += 1
+                    if omit_first_two_lines > 2:
+                        if 'DONE TASKS' in line:
+                            break
+                        activities.append(line.split('\n')[0])  
+    except (OSError, IOError) as e:
+        print("The file was not found.")
     return activities
 
 def previous_tasks(activities):
